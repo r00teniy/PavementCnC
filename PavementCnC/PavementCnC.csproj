@@ -20,16 +20,16 @@
 
   <ItemGroup>
     <Reference Include="accoremgd">
-      <HintPath>..\..\..\..\..\..\autocad\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc\AcCoreMgd.dll</HintPath>
+      <HintPath>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc\AcCoreMgd.dll</HintPath>
     </Reference>
     <Reference Include="Acdbmgd">
-      <HintPath>..\..\..\..\..\..\autocad\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc\AcDbMgd.dll</HintPath>
+      <HintPath>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc\AcDbMgd.dll</HintPath>
     </Reference>
     <Reference Include="acdbmgdbrep">
-      <HintPath>..\..\..\..\..\..\autocad\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc\acdbmgdbrep.dll</HintPath>
+      <HintPath>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc\acdbmgdbrep.dll</HintPath>
     </Reference>
     <Reference Include="acmgd">
-      <HintPath>..\..\..\..\..\..\autocad\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc\AcMgd.dll</HintPath>
+      <HintPath>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc\AcMgd.dll</HintPath>
     </Reference>
   </ItemGroup>
 
