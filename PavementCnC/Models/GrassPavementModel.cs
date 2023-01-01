@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PavementCnC.Models
 {
-    public class LooseFillPavementModel : IPavement
+    public class GrassPavementModel : IPavement
     {
         public PavementType TypeOfPavement { get; set; }
         public string PavementTypeName { get; set; }
@@ -15,11 +15,10 @@ namespace PavementCnC.Models
         public int AcceptedLoad { get; set; }
         public double PavementArea { get; set; }
         public bool IsInsideGeocells { get; set; }
-        public string FillMaterial { get; set; }
-        public string GrainSize { get; set; }
+        public bool IsRolled { get; set; }
         public bool IsInsidePlot { get; set; }
 
-        public LooseFillPavementModel(PavementType typeOfPavement, string pavementTypeName, PointOfUseType pointOfUse, int acceptedLoad, double pavementArea, bool isInsideGeocells, string fillMaterial, string grainSize, bool isInsidePlot = true)
+        public GrassPavementModel(PavementType typeOfPavement, string pavementTypeName, PointOfUseType pointOfUse, int acceptedLoad, double pavementArea, bool isInsideGeocells, bool isRolled, bool isInsidePlot = true)
         {
             TypeOfPavement = typeOfPavement;
             PavementTypeName = pavementTypeName;
@@ -27,16 +26,11 @@ namespace PavementCnC.Models
             AcceptedLoad = acceptedLoad;
             PavementArea = pavementArea;
             IsInsideGeocells = isInsideGeocells;
-            FillMaterial = fillMaterial;
-            GrainSize = grainSize;
+            IsRolled = isRolled;
             IsInsidePlot = isInsidePlot;
             var type = PointOfUse switch
             {
-                PointOfUseType.Road => "проезды автотранспорта",
-                PointOfUseType.Parking => "стоянки автотранспорта",
-                PointOfUseType.Footpath => "тротуары и дорожки",
                 PointOfUseType.FireLane => "пожарные проезды",
-                PointOfUseType.PerimeterWalk => "отмостка",
                 PointOfUseType.Playground => "детские площадки",
                 PointOfUseType.SportZone => "спортивные площадки",
                 PointOfUseType.UtilityZone => "хозяйственные площадки",
@@ -44,7 +38,7 @@ namespace PavementCnC.Models
                 PointOfUseType.Greenery => "территория озеленения",
                 _ => throw new Exception("Неизвестное место применения")
             };
-            PavementFullName = $"Насыпное покрытие из {FillMaterial} {GrainSize} ({type}). Основание под нагрузку {AcceptedLoad}т/ось.";
+            PavementFullName = $"Покрытие из {(isRolled ? "рулонного" : "посевного")} газона {(isInsideGeocells ? "в георешетке" : "")} ({type}). {(isInsideGeocells ? "Основание под нагрузку " + AcceptedLoad + "т/ось." : "")}";
         }
     }
 }

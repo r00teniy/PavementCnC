@@ -14,5 +14,6 @@ namespace PavementCnC.Models
         public PointOfUseType PointOfUse { get; set; }
         public int AcceptedLoad { get; set; }
         public double PavementArea { get; set; }
+        public bool IsInsidePlot { get; set; }
     }
 }
