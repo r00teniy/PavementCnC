@@ -3,14 +3,14 @@
 
 namespace PavementCnC
 {
-    enum CurbType
+    public enum CurbType
     {
         Granite,
         Concrete,
         Metall,
         Plastic
     }
-    enum PavementType
+    public enum PavementType
     {
         Asphalt,
         Concrete,
@@ -19,20 +19,33 @@ namespace PavementCnC
         Rubber,
         Grass
     }
-    enum GreeneryType
+    public enum GreeneryType
     {
         Tree,
         Shrub,
         FlowerBed,
-        Hedge,
-        Planter
+        Hedge        
     }
-    enum StreetFurtitureType
+    public enum StreetFurnitureType
     {
         Child,
         Sport,
         Trash,
         Rest,
         RoadSign
+    }
+
+    public enum PointOfUseType
+    {
+        Road,
+        Parking,
+        Footpath,
+        FireLane,
+        PerimeterWalk,
+        Playground,
+        SportZone,
+        UtilityZone,
+        RestZone,
+        Greenery
     }
 }
