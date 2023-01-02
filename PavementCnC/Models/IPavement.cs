@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PavementCnC.Models
+namespace PavementCnC.Models;
+
+public interface IPavement
 {
-    public interface IPavement
-    {
-        public PavementType TypeOfPavement { get; set; }
-        public string PavementTypeName { get; set; }
-        public string PavementFullName { get; set; }
-        public PointOfUseType PointOfUse { get; set; }
-        public int AcceptedLoad { get; set; }
-        public double PavementArea { get; set; }
-        public bool IsInsidePlot { get; set; }
-    }
+    public PavementType TypeOfPavement { get; set; }
+    public string PavementTypeName { get; set; }
+    public string PavementFullName { get; set; }
+    public PointOfUseType PointOfUse { get; set; }
+    public int AcceptedLoad { get; set; }
+    public double PavementArea { get; set; }
+    public bool IsInsidePlot { get; set; }
 }
