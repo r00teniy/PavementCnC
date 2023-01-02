@@ -10,14 +10,13 @@ using System.Text;
 
 [assembly: CommandClass(typeof(PavementCnC.MyCommands))]
 
-namespace PavementCnC
-{
-    internal class MyCommands
-    {
-        [CommandMethod("Command")]
-        static public void Command()
-        {
+namespace PavementCnC;
 
-        }
+internal class MyCommands
+{
+    [CommandMethod("Command")]
+    static public void Command()
+    {
+
     }
 }
