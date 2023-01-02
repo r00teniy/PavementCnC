@@ -15,7 +15,7 @@ using AcBr = Autodesk.AutoCAD.BoundaryRepresentation;
 
 namespace PavementCnC.Functions;
 
-public static class Functions
+public static class FunctionsPrepairingData
 {
     //General stuff
     static Document doc = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
