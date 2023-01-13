@@ -13,11 +13,12 @@ public class CurbModel
     public bool IsInsidePlot { get; set; }
     public string CurbFullName { get; set; }
 
-    public CurbModel(CurbType typeOfCurb, string curbName, string curbColor, double curbLength, bool isInsidePlot = true)
+    public CurbModel(string curbLayer, double curbLength, bool isInsidePlot = true)
     {
-        TypeOfCurb = typeOfCurb;
-        CurbName = curbName;
-        CurbColor = curbColor;
+        var layerSplit = curbLayer.Split('+');
+        TypeOfCurb = (CurbType)Array.IndexOf(Variables.typeOfCurb, layerSplit[1]);
+        CurbName = layerSplit[2];
+        CurbColor = layerSplit[3];
         CurbLength = curbLength;
         IsInsidePlot = isInsidePlot;
         var type = TypeOfCurb switch

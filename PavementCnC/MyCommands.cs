@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PavementCnC.Forms;
+using PavementCnC.Functions;
 
 [assembly: CommandClass(typeof(PavementCnC.MyCommands))]
 
@@ -14,9 +16,10 @@ namespace PavementCnC;
 
 internal class MyCommands
 {
-    [CommandMethod("Command")]
-    static public void Command()
+    [CommandMethod("MyCom")]
+    static public void MyCom()
     {
-
+        var mainForm = new MainForm();
+        mainForm.Show();
     }
 }

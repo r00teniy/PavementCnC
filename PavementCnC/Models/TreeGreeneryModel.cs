@@ -6,11 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PavementCnC.Models;
-
+// Layer name structure: greeneryNameStart + TypeOfGreenery + GreeneryName + Age + Height + CrownSizeInM + StoolbedInM3 + PitSizeInM3 + IrrigationSystem + SupportSystem + HasSpecialPavement (1/0) + SpecialPavementName + SpecialPavementAreaInM2
 public class TreeGreeneryModel : IGreenery
 {
     public string GreeneryName { get; set; }
-    public double GreeneryAmount { get; set; }
     public double SoilAmountInM3 { get; set; }
     public GreeneryType TypeOfGreenery { get; set; }
     public double PitSizeInM3 { get; set; }
@@ -22,23 +21,24 @@ public class TreeGreeneryModel : IGreenery
     public string SupportSystem { get; set; }
     public bool HasSpecialPavement { get; set; }
     public string SpecialPavementName { get; set; }
+    public double SpecialPavementAreaInM2 { get; set; }
     public Point3d Position { get; set; }
 
-    public TreeGreeneryModel(string greeneryName, double greeneryAmount, GreeneryType typeOfGreenery, double pitSizeInM3, double stoolbedInM3, double age, double height, double crownSizeInM, Point3d position, string irrigationSystem = "", string supportSystem = "", bool hasSpecialPavement = false, string specialPavementName = "")
+    public TreeGreeneryModel(GreeneryType typeOfGreenery, string[] layerSplit, Point3d position)
     {
-        GreeneryName = greeneryName;
-        GreeneryAmount = greeneryAmount;
-        SoilAmountInM3 = pitSizeInM3 - stoolbedInM3;
+        GreeneryName = layerSplit[2];
         TypeOfGreenery = typeOfGreenery;
-        PitSizeInM3 = pitSizeInM3;
-        StoolbedInM3 = stoolbedInM3;
-        Age = age;
-        Height = height;
-        CrownSizeInM = crownSizeInM;
-        IrrigationSystem = irrigationSystem;
-        SupportSystem = supportSystem;
-        HasSpecialPavement = hasSpecialPavement;
-        SpecialPavementName = specialPavementName;
+        PitSizeInM3 = Convert.ToDouble(layerSplit[7]);
+        StoolbedInM3 = Convert.ToDouble(layerSplit[6]);
+        SoilAmountInM3 = PitSizeInM3 - StoolbedInM3;
+        Age = Convert.ToDouble(layerSplit[3]); // change to typarse?
+        Height = Convert.ToDouble(layerSplit[4]);
+        CrownSizeInM = Convert.ToDouble(layerSplit[5]);
+        IrrigationSystem = layerSplit[8];
+        SupportSystem = layerSplit[9];
+        HasSpecialPavement = layerSplit[10] == "1";
+        SpecialPavementName = layerSplit[11];
+        SpecialPavementAreaInM2 = Convert.ToDouble(layerSplit[12]);
         Position = position;
     }
 }

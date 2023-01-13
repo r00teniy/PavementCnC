@@ -1,33 +1,34 @@
-﻿using System;
+﻿using Autodesk.AutoCAD.Geometry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PavementCnC.Models;
-// Layer name structure: pavementLayerStart + typeOfPavement + isRolled + isInsideGeoCells + pavementTypeName + pointOfUse + acceptedLoad
+// Layer name structure: pavementLayerStart + typeOfPavement + Code + pavementTypeName + pointOfUse + acceptedLoad
 public class GrassPavementModel : IPavement
 {
-    public PavementType TypeOfPavement { get; set; }
-    public string PavementTypeName { get; set; }
-    public string PavementFullName { get; set; }
-    public PointOfUseType PointOfUse { get; set; }
-    public int AcceptedLoad { get; set; }
-    public double PavementArea { get; set; }
-    public bool IsInsideGeocells { get; set; }
-    public bool IsRolled { get; set; }
-    public bool IsInsidePlot { get; set; }
+    public PavementType TypeOfPavement { get; private set; } = PavementType.Grass;
+    public string Code { get; private set; }
+    public string PavementTypeName { get; private set; }
+    public string PavementFullName { get; private set; }
+    public PointOfUseType PointOfUse { get; private set; }
+    public int AcceptedLoad { get; private set; }
+    public double PavementArea { get; private set; }
+    public bool IsInsideGeocells { get; private set; } = true;
+    public bool IsInsidePlot { get; private set; }
+    public Point3d Position { get; private set; }
 
-    public GrassPavementModel(PavementType typeOfPavement, string pavementTypeName, PointOfUseType pointOfUse, int acceptedLoad, double pavementArea, bool isInsideGeocells, bool isRolled, bool isInsidePlot = true)
+    public GrassPavementModel(string[] layerSplit, double pavementArea, Point3d position, bool isInsidePlot = true)
     {
-        TypeOfPavement = typeOfPavement;
-        PavementTypeName = pavementTypeName;
-        PointOfUse = pointOfUse;
-        AcceptedLoad = acceptedLoad;
+        Code = layerSplit[2];
+        PavementTypeName = layerSplit[3];
+        PointOfUse = (PointOfUseType)Array.IndexOf(Variables.pointOfUseLayer, layerSplit[4]);
+        AcceptedLoad = Convert.ToInt32(layerSplit[5]);
         PavementArea = pavementArea;
-        IsInsideGeocells = isInsideGeocells;
-        IsRolled = isRolled;
         IsInsidePlot = isInsidePlot;
+        Position = position;
         var type = PointOfUse switch
         {
             PointOfUseType.FireLane => "пожарные проезды",
@@ -38,6 +39,6 @@ public class GrassPavementModel : IPavement
             PointOfUseType.Greenery => "территория озеленения",
             _ => throw new Exception("Неизвестное место применения")
         };
-        PavementFullName = $"Покрытие из {(isRolled ? "рулонного" : "посевного")} газона {(isInsideGeocells ? "в георешетке" : "")} ({type}). {(isInsideGeocells ? "Основание под нагрузку " + AcceptedLoad + "т/ось." : "")}";
+        PavementFullName = $"Покрытие из посевногов георешетке ({type}). Основание под нагрузку {AcceptedLoad} т/ось.";
     }
 }

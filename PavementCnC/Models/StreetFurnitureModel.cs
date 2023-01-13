@@ -17,13 +17,21 @@ public class StreetFurnitureModel
     public Point3d Position { get; set; }
     //do we need foundation prop?
 
-    public StreetFurnitureModel(StreetFurnitureType typeOfFurniture, string furnitureName, string furnitureManufacturer, string furnitureId, Point3d position, double dropHeight = 0)
+    public StreetFurnitureModel(Dictionary<string,string> attr, Point3d position)
     {
-        TypeOfFurniture = typeOfFurniture;
-        FurnitureName = furnitureName;
-        FurnitureManufacturer = furnitureManufacturer;
-        FurnitureId = furnitureId;
-        DropHeight = dropHeight;
+        TypeOfFurniture = attr["Тип"] switch
+        {
+            "Детская" => StreetFurnitureType.Child,
+            "Спортивная" => StreetFurnitureType.Sport,
+            "Мусор" => StreetFurnitureType.Trash,
+            "Отдых" => StreetFurnitureType.Rest,
+            "Знак" => StreetFurnitureType.RoadSign,
+            _ => throw new Exception("Неизвестный тип фурнитуры")
+        };
+        FurnitureName = attr["Название"];
+        FurnitureManufacturer = attr["Производитель"];
+        FurnitureId = attr["Артикул"];
+        DropHeight = Convert.ToDouble(attr["Выс.Падения"]);
         Position = position;
     }        
 }

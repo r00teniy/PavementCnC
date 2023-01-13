@@ -5,10 +5,10 @@ namespace PavementCnC;
 
 public enum CurbType
 {
-    Granite,
-    Concrete,
-    Metall,
-    Plastic
+    Granite = 0,
+    Concrete = 1,
+    Metall = 2,
+    Plastic = 3
 }
 public enum PavementType
 {
@@ -37,14 +37,14 @@ public enum StreetFurnitureType
 
 public enum PointOfUseType
 {
-    Road,
-    Parking,
-    Footpath,
-    FireLane,
-    PerimeterWalk,
-    Playground,
-    SportZone,
-    UtilityZone,
-    RestZone,
-    Greenery
+    Road = 0,
+    Parking = 1,
+    Footpath = 2,
+    FireLane = 3,
+    PerimeterWalk = 4,
+    Playground = 5,
+    SportZone = 6,
+    UtilityZone = 7,
+    RestZone = 8,
+    Greenery = 9
 }

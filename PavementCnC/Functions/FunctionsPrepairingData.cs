@@ -5,13 +5,11 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
 using AcBr = Autodesk.AutoCAD.BoundaryRepresentation;
+using System;
+using System.Linq;
 
 namespace PavementCnC.Functions;
 
@@ -68,12 +66,78 @@ public static class FunctionsPrepairingData
         }
         return result;
     }
-    //Getting hatch border points to check if it is inside plot or not
-    public static List<Point3d> GetHatchBorderPoints(Hatch hat)
+    //Getting hatch border or polyline points to check if it is inside plot or not
+    public static List<Point3d> GetPointsFromObject<T>(T obj)
     {
-        List<Point3d> output = new ();
-
-        return output;
+        List<Point3d> output = new();
+        if (obj is Hatch hat)
+        {
+            HatchLoop loop = hat.GetLoopAt(0);
+            Plane plane = hat.GetPlane();
+            var poly = GetBorderFromHatchLoop(loop, plane);
+            for (var i = 0; i < poly.NumberOfVertices; i++)
+            {
+                output.Add(poly.GetPoint3dAt(i));
+            }
+            return output;
+        }
+        if (obj is Polyline pl)
+        {
+            for (var i = 0; i < pl.NumberOfVertices; i++)
+            {
+                output.Add(pl.GetPoint3dAt(i));
+            }
+            return output;
+        }
+        if (obj is BlockReference br)
+        {
+            output.Add(br.Position);
+            return output;
+        }
+        throw new System.Exception("This metho works with BlockReference, Polyline or Hatch only.");
+    }
+    //Checking if group of points is inside/on the polyline
+    public static bool ArePointsInsidePolyline(List<Point3d> points, Polyline pl)
+    {
+        var isFirstPointIn = GetPointContainment(pl, points[0]);
+        for (int i = 1; i < points.Count; i++)
+        {
+            var isThisPointIn = GetPointContainment(pl, points[i]);
+            if (isThisPointIn != isFirstPointIn)
+            {
+                if (isFirstPointIn == PointContainment.OnBoundary)
+                {
+                    isFirstPointIn = isThisPointIn;
+                }
+                else
+                {
+                    throw new System.Exception("Одна из полилиний или штриховок пересекает границу участка, необходимо исправить.");
+                }
+            }
+        }
+        return isFirstPointIn == PointContainment.Inside;
+    }
+    //Function to check if hatch/polyline/blockreference is inside plot (can have 2+ borders)
+    public static List<bool> AreObjectsInsidePlot<T>(List<Polyline> plotBorderList, List<T> objects)
+    {
+        if (objects == null)
+        {
+            return null;
+        }
+        List<bool> results = new();
+        foreach (var item in objects)
+        {
+            var tempResult = false;
+            foreach (var pl in plotBorderList)
+            {
+                if (ArePointsInsidePolyline(GetPointsFromObject(item), pl))
+                {
+                    tempResult = true;
+                }
+            }
+            results.Add(tempResult);
+        }
+        return results;
     }
     //Function that returns Polyline from HatchLoop
     public static Polyline GetBorderFromHatchLoop(HatchLoop loop, Plane plane)

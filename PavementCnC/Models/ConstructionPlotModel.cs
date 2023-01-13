@@ -16,18 +16,18 @@ public class ConstructionPlotModel
     public double GreeneryAreaOutsidePlot { get; set; }
     public double LooseFillInsidePlot { get; set; }
     public double LooseFillOutsidePlot { get; set; }
-    public List<AsphaltPavementModel>? AsphaltPavements { get; set; }
-    public List<ConcretePavementModel>? ConcretePavements { get; set; }
-    public List<GrassPavementModel>? GrassPavements { get; set; }
-    public List<LooseFillPavementModel>? LooseFillPavements { get; set; }
-    public List<RubberPavementModel>? RubberPavements { get; set; }
-    public List<TilesPavementModel>? TilesPavements { get; set; }
-    public List<CurbModel>? Curbs { get; set; }
-    public List<StreetFurnitureModel>? StreetFurniture { get; set; }
-    public List<FlowerbedGreeneryModel>? Flowerbeds { get; set; }
-    public List<HedgeGreeneryModel>? Hedges { get; set; }
-    public List<ShrubGreeneryModel>? Shrubs { get; set; }
-    public List<TreeGreeneryModel>? Trees { get; set; }
+    public List<AsphaltPavementModel> AsphaltPavements { get; set; }
+    public List<ConcretePavementModel> ConcretePavements { get; set; }
+    public List<GrassPavementModel> GrassPavements { get; set; }
+    public List<LooseFillPavementModel> LooseFillPavements { get; set; }
+    public List<RubberPavementModel> RubberPavements { get; set; }
+    public List<TilesPavementModel> TilesPavements { get; set; }
+    public List<CurbModel> Curbs { get; set; }
+    public List<StreetFurnitureModel> StreetFurniture { get; set; }
+    public List<FlowerbedGreeneryModel> Flowerbeds { get; set; }
+    public List<HedgeGreeneryModel> Hedges { get; set; }
+    public List<ShrubGreeneryModel> Shrubs { get; set; }
+    public List<TreeGreeneryModel> Trees { get; set; }
 
     public ConstructionPlotModel(List<IPavement> pavementList, List<IGreenery> greeneryList, List<StreetFurnitureModel> streetFurnitureList, List<CurbModel> curbs, double plotArea, double buildingFootprint)
     {

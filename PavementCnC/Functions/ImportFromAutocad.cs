@@ -3,6 +3,8 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
+using System;
+using System.Collections.Generic;
 
 namespace PavementCnC.Functions;
 
@@ -46,7 +48,7 @@ public static class ImportFromAutocad
                     if (item.ObjectClass.IsDerivedFrom(RXObject.GetClass(typeof(T))))
                     {
                         var entity = (T)tr.GetObject(item, OpenMode.ForRead);
-                        if (entity.Layer == layer)
+                        if (entity.Layer == (layer))
                         {
                             output.Add(entity);
                         }
@@ -57,6 +59,7 @@ public static class ImportFromAutocad
         }
         return output;
     }
+    //Method to get all layer names containing provided string
     public static List<string> GetAllLayersContainingString(string str)
     {
         List<string> output = new ();
@@ -78,9 +81,50 @@ public static class ImportFromAutocad
         }
         return output;
     }
+    //Propmpting user for insertion point
     public static Point3d GetInsertionPoint()
     {
         PromptPointOptions pPtOpts = new ("\nВыберете точку положения таблицы: ");
         return ed.GetPoint(pPtOpts).Value;
+    }
+    //Method to get all attributes from a block
+    public static List<Dictionary<string, string>> GetAllAttributesFromBlockReferences(List<BlockReference> brList)
+    {
+        var output = new List<Dictionary<string, string>>();
+        using (Transaction tr = db.TransactionManager.StartTransaction())
+        {
+            using (DocumentLock acLckDoc = doc.LockDocument())
+            {
+                for (var i = 0; i < brList.Count;i++)
+                {
+                    output.Add(new Dictionary<string, string>());
+                    foreach (ObjectId id in brList[i].AttributeCollection)
+                    {
+                        // open the attribute reference
+                        var attRef = (AttributeReference)tr.GetObject(id, OpenMode.ForRead);
+                        //Adding it to dictionary
+                        output[i].Add(attRef.Tag, attRef.TextString);
+                    }
+                }
+            }
+            tr.Commit();
+        }
+        return output;
+    }
+    //Function to get center of a hatch
+    public static List<Point3d> GetCenterOfAHatch(List<Hatch> hatches)
+    {
+        List<Point3d> points = new();
+        {
+            using (DocumentLock acLckDoc = doc.LockDocument())
+            {
+                foreach (var hat in hatches)
+                {
+                    Extents3d extents = hat.GeometricExtents;
+                    points.Add(extents.MinPoint + (extents.MaxPoint - extents.MinPoint) / 2.0);
+                }
+            }
+        }
+        return points;
     }
 }

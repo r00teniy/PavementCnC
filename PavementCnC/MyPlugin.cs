@@ -1,6 +1,7 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
+using PavementCnC.Functions;
 
 [assembly: ExtensionApplication(typeof(PavementCnC.MyPlugin))]
 
@@ -11,7 +12,7 @@ namespace PavementCnC
     {
         void IExtensionApplication.Initialize()
         {
-            Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
+            Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
             ed.WriteMessage("Program PavementCnC loaded \n");
         }
         void IExtensionApplication.Terminate()

@@ -1,35 +1,39 @@
-﻿using System;
+﻿using Autodesk.AutoCAD.Geometry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PavementCnC.Models;
-// Layer name structure: pavementLayerStart + typeOfPavement + fillMaterial + isInsideGeoCells + pavementTypeName + pointOfUse + acceptedLoad + grainSize
+// Layer name structure: pavementLayerStart + typeOfPavement + Code + fillMaterial + isInsideGeoCells + pavementTypeName + pointOfUse + acceptedLoad + grainSize
 public class LooseFillPavementModel : IPavement
 {
-    public PavementType TypeOfPavement { get; set; }
-    public string PavementTypeName { get; set; }
-    public string PavementFullName { get; set; }
-    public PointOfUseType PointOfUse { get; set; }
-    public int AcceptedLoad { get; set; }
-    public double PavementArea { get; set; }
-    public bool IsInsideGeocells { get; set; }
-    public string FillMaterial { get; set; }
-    public string GrainSize { get; set; }
-    public bool IsInsidePlot { get; set; }
+    public PavementType TypeOfPavement { get; private set; } = PavementType.LooseFill;
+    public string Code { get; private set; }
+    public string PavementTypeName { get; private set; }
+    public string PavementFullName { get; private set; }
+    public PointOfUseType PointOfUse { get; private set; }
+    public int AcceptedLoad { get; private set; }
+    public double PavementArea { get; private set; }
+    public bool IsInsideGeocells { get; private set; }
+    public string FillMaterial { get; private set; }
+    public string GrainSize { get; private set; }
+    public bool IsInsidePlot { get; private set; }
+    public Point3d Position { get; private set; }
 
-    public LooseFillPavementModel(PavementType typeOfPavement, string pavementTypeName, PointOfUseType pointOfUse, int acceptedLoad, double pavementArea, bool isInsideGeocells, string fillMaterial, string grainSize, bool isInsidePlot = true)
+    public LooseFillPavementModel(string [] layerSplit, double pavementArea, Point3d position, bool isInsidePlot = true)
     {
-        TypeOfPavement = typeOfPavement;
-        PavementTypeName = pavementTypeName;
-        PointOfUse = pointOfUse;
-        AcceptedLoad = acceptedLoad;
+        Code = layerSplit[2];
+        PavementTypeName = layerSplit[5];
+        PointOfUse = (PointOfUseType)Array.IndexOf(Variables.pointOfUseLayer, layerSplit[6]);
+        AcceptedLoad = Convert.ToInt32(layerSplit[7]);
         PavementArea = pavementArea;
-        IsInsideGeocells = isInsideGeocells;
-        FillMaterial = fillMaterial;
-        GrainSize = grainSize;
+        IsInsideGeocells = layerSplit[4] == "в георешетке";
+        FillMaterial = layerSplit[3];
+        GrainSize = layerSplit[8];
         IsInsidePlot = isInsidePlot;
+        Position = position;
         var type = PointOfUse switch
         {
             PointOfUseType.Road => "проезды автотранспорта",

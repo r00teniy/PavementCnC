@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PavementCnC.Functions;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -11,119 +9,163 @@ namespace PavementCnC.Functions;
 
 public static class ModelCreation
 {
-    static string curbLayerStart = "31_Борт";
-    static string pavementLayerStart = "41_Покр";
     public static ConstructionPlotModel GenerateModelsFromAutocad()
     {
+        //Getting plot border as polyline
+        List<Polyline> plotBorders = ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(Variables.plotBorderLayer);
         //Getting layer lists from drawing
-        List<string> curbLayers = ImportFromAutocad.GetAllLayersContainingString(curbLayerStart);
-        List<string> pavementLayers = ImportFromAutocad.GetAllLayersContainingString(pavementLayerStart);
+        List<string> curbLayers = ImportFromAutocad.GetAllLayersContainingString(Variables.curbLayerStart);
+        List<string> pavementLayers = ImportFromAutocad.GetAllLayersContainingString(Variables.pavementLayerStart);
+        List<string> greeneryItemsLayers = ImportFromAutocad.GetAllLayersContainingString(Variables.greeneryItemsLayerStart);
+        List<string> greeneryAreaLayers = ImportFromAutocad.GetAllLayersContainingString(Variables.greeneryAreaLayerStart);
+        List<string> streetFurnitureLayers = ImportFromAutocad.GetAllLayersContainingString(Variables.streetFurnitureLayerStart);
         //Getting layer elements for each layer
         List<List<Polyline>> curbs = new List<List<Polyline>>();
         foreach (var curbLayer in curbLayers)
         {
             curbs.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(curbLayer));
         }
+        //Checking if curbs are inside plot or not
+        List<List<bool>> areCurbsInsidePlot = new List<List<bool>>();
+        foreach (var curbList in curbs)
+        {
+            areCurbsInsidePlot.Add(FunctionsPrepairingData.AreObjectsInsidePlot(plotBorders, curbList));
+        }
         List<List<Hatch>> pavements = new List<List<Hatch>>();
         foreach (var pavementLayer in pavementLayers)
         {
             pavements.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Hatch>(pavementLayer));
         }
+        List<List<BlockReference>> greeneryItems = new ();
+        foreach (var greeneryLayer in greeneryItemsLayers)
+        {
+            greeneryItems.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<BlockReference>(greeneryLayer));
+        }
+        List<List<Hatch>> greeneryAreas = new();
+        foreach (var greeneryAreaLayer in greeneryAreaLayers)
+        {
+            greeneryAreas.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Hatch>(greeneryAreaLayer));
+        }
+        List<List<BlockReference>> streetFurniture = new();
+        foreach (var streetFurnitureLayer in streetFurnitureLayers)
+        {
+            streetFurniture.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<BlockReference>(streetFurnitureLayer));
+        }
         //Creating new models for each element
         List<CurbModel> curbModels= new List<CurbModel>();
         for (int i = 0; i < curbLayers.Count; i++)
         {
-            var layerSplit = curbLayers[i].Split('+');
-            var type = layerSplit[1] switch
+            for (var j = 0; j < curbs[i].Count;j++)
             {
-                "Бетонный" => CurbType.Concrete,
-                "Гранитный" => CurbType.Granite,
-                "Пластиковый" => CurbType.Plastic,
-                "Металлический" => CurbType.Metall,
-                _ => throw new Exception("Неизвестный тип борта")
-            };
-            foreach (var item in curbs[i])
-            {
-                curbModels.Add(new CurbModel(type, layerSplit[2], layerSplit[3], item.Length));
+                curbModels.Add(new CurbModel(curbLayers[i], curbs[i][j].Length, areCurbsInsidePlot[i][j]));
             }
         }
         List<IPavement> pavementModels = new List<IPavement>();
         for (int i = 0; i < pavementLayers.Count; i++)
         {
+            List<bool> arePavementsInsidePlot = new List<bool>();
             var layerSplit = pavementLayers[i].Split('+');
+            arePavementsInsidePlot = FunctionsPrepairingData.AreObjectsInsidePlot(plotBorders, pavements[i]);
+            var pavementAreas = FunctionsPrepairingData.GetHatchArea(pavements[i]);
+            var pavementPositions = ImportFromAutocad.GetCenterOfAHatch(pavements[i]);
             switch (layerSplit[1])
             {
                 case "Асфальтовое":
-                    foreach (var item in FunctionsPrepairingData.GetHatchArea(pavements[i]))
+                    for (var j = 0; j < pavementAreas.Count;j++)
                     {
-                        pavementModels.Add(new AsphaltPavementModel(PavementType.Asphalt, layerSplit[2], GetPointOfUse(layerSplit[3]), Convert.ToInt32(layerSplit[4]), item));
+                        pavementModels.Add(new AsphaltPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
                     }
                     break;
                 case "Бетоннное":
-                    foreach (var item in FunctionsPrepairingData.GetHatchArea(pavements[i]))
+                    for (var j = 0; j < pavementAreas.Count; j++)
                     {
-                        pavementModels.Add(new ConcretePavementModel(PavementType.Concrete, layerSplit[2], GetPointOfUse(layerSplit[3]), Convert.ToInt32(layerSplit[4]), item, layerSplit[5]));
+                        pavementModels.Add(new ConcretePavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
                     }
                     break;
                 case "Газоннное":
-                    foreach (var item in FunctionsPrepairingData.GetHatchArea(pavements[i]))
+                    for (var j = 0; j < pavementAreas.Count; j++)
                     {
-                        pavementModels.Add(new GrassPavementModel(PavementType.Grass, layerSplit[4], GetPointOfUse(layerSplit[5]), Convert.ToInt32(layerSplit[6]), item, layerSplit[3] == "в георешетке", layerSplit[2] == "рулонный"));
+                        pavementModels.Add(new GrassPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
                     }
                     break;
                 case "Насыпное":
-                    foreach (var item in FunctionsPrepairingData.GetHatchArea(pavements[i]))
+                    for (var j = 0; j < pavementAreas.Count; j++)
                     {
-                        pavementModels.Add(new LooseFillPavementModel(PavementType.LooseFill, layerSplit[4], GetPointOfUse(layerSplit[5]), Convert.ToInt32(layerSplit[6]), item, layerSplit[3] == "в георешетке", layerSplit[2], layerSplit[7]));
+                        pavementModels.Add(new LooseFillPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
                     }
                     break;
                 case "Резиновое":
-                    foreach (var item in FunctionsPrepairingData.GetHatchArea(pavements[i]))
+                    for (var j = 0; j < pavementAreas.Count; j++)
                     {
-                        pavementModels.Add(new RubberPavementModel(PavementType.Rubber, layerSplit[5], GetPointOfUse(layerSplit[6]), item, layerSplit[3], layerSplit[4], Convert.ToInt32(layerSplit[7]), layerSplit[2], Convert.ToDouble(layerSplit[8])));
+                        pavementModels.Add(new RubberPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
                     }
                     break;
                 case "Плиточное":
-                    foreach (var item in FunctionsPrepairingData.GetHatchArea(pavements[i]))
+                    for (var j = 0; j < pavementAreas.Count; j++)
                     {
-                        pavementModels.Add(new TilesPavementModel(PavementType.Tiles, layerSplit[4], GetPointOfUse(layerSplit[5]), Convert.ToInt32(layerSplit[6]), item, layerSplit[2], layerSplit[7], layerSplit[3], layerSplit[8]));
+                        pavementModels.Add(new TilesPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
                     }
                     break;
                 default:
                     throw new Exception("Неизвестный тип покрытия");
             }
         }
-        
-        return new ConstructionPlotModel();
-    }
-
-    //Getting enum for pointOfUse
-    internal static PointOfUseType GetPointOfUse(string str)
-    {
-        switch (str)
+        List<IGreenery> greeneryModels = new();
+        for (int i = 0; i < greeneryItemsLayers.Count; i++)
         {
-            case ("(Пр)"):
-                return PointOfUseType.Road;
-            case ("(Пар)"):
-                return PointOfUseType.Parking;
-            case ("(Тр)"):
-                return PointOfUseType.Footpath;
-            case ("(Пож)"):
-                return PointOfUseType.FireLane;
-            case ("(Отм)"):
-                return PointOfUseType.PerimeterWalk;
-            case ("(Дет)"):
-                return PointOfUseType.Playground;
-            case ("(Сп)"):
-                return PointOfUseType.SportZone;
-            case ("(Хп)"):
-                return PointOfUseType.UtilityZone;
-            case ("(По)"):
-                return PointOfUseType.RestZone;
-            case ("(Оз)"):
-                return PointOfUseType.Greenery;
-            default:
-                throw new Exception("Неизвестное место применения");                
+            var layerSplit = greeneryItemsLayers[i].Split('+');
+            switch (layerSplit[1])
+            {
+                case "Дерево":
+                    for (var j = 0; j < greeneryItems[i].Count;j++)
+                    {
+                        greeneryModels.Add(new TreeGreeneryModel(GreeneryType.Tree, layerSplit, greeneryItems[i][j].Position));
+                    }
+                    break;
+                case "Кустарник":
+                    for (var j = 0; j < greeneryItems[i].Count; j++)
+                    {
+                        greeneryModels.Add(new ShrubGreeneryModel(GreeneryType.Shrub, layerSplit, greeneryItems[i][j].Position));
+                    }
+                    break;
+                default:
+                    throw new Exception("Неизвестный тип штучного озеленения");
+            }
+
         }
+        for (int i = 0; i < greeneryAreaLayers.Count; i++)
+        {
+            var layerSplit = greeneryAreaLayers[i].Split('+');
+            var hatchAreas = FunctionsPrepairingData.GetHatchArea(greeneryAreas[i]);
+            var hatchPositions = ImportFromAutocad.GetCenterOfAHatch(greeneryAreas[i]);
+            switch (layerSplit[1])
+            {
+                case "Изгородь":
+                    for (var j = 0; j < greeneryAreas[i].Count; j++)
+                    {
+                        greeneryModels.Add(new HedgeGreeneryModel(GreeneryType.Tree, layerSplit, hatchPositions[j], hatchAreas[j]));
+                    }
+                    break;
+                case "Цветник":
+                    for (var j = 0; j < greeneryAreas[i].Count; j++)
+                    {
+                        greeneryModels.Add(new FlowerbedGreeneryModel(GreeneryType.Tree, layerSplit, hatchPositions[j], hatchAreas[j]));
+                    }
+                    break;
+                default:
+                    throw new Exception("Неизвестный тип площадного озеленения");
+            }
+
+        }
+        List<StreetFurnitureModel> streetFurnitureModels = new();
+        foreach (var furn in streetFurniture)
+        {
+            var attr = ImportFromAutocad.GetAllAttributesFromBlockReferences(furn);
+            for (var i = 0; i < furn.Count;i++)
+            {
+                streetFurnitureModels.Add(new StreetFurnitureModel(attr[i], furn[i].Position));
+            }
+        }
+        return new ConstructionPlotModel(pavementModels, greeneryModels, streetFurnitureModels, curbModels, plotBorders.Sum(x => x.Area), 0);
     }
 }
