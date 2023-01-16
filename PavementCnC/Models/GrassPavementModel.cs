@@ -1,17 +1,12 @@
 ﻿using Autodesk.AutoCAD.Geometry;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PavementCnC.Models;
-// Layer name structure: pavementLayerStart + typeOfPavement + Code + pavementTypeName + pointOfUse + acceptedLoad
+// Layer name structure: pavementLayerStart + Code + typeOfPavement + pointOfUse + acceptedLoad
 public class GrassPavementModel : IPavement
 {
     public PavementType TypeOfPavement { get; private set; } = PavementType.Grass;
     public string Code { get; private set; }
-    public string PavementTypeName { get; private set; }
     public string PavementFullName { get; private set; }
     public PointOfUseType PointOfUse { get; private set; }
     public int AcceptedLoad { get; private set; }
@@ -22,10 +17,9 @@ public class GrassPavementModel : IPavement
 
     public GrassPavementModel(string[] layerSplit, double pavementArea, Point3d position, bool isInsidePlot = true)
     {
-        Code = layerSplit[2];
-        PavementTypeName = layerSplit[3];
-        PointOfUse = (PointOfUseType)Array.IndexOf(Variables.pointOfUseLayer, layerSplit[4]);
-        AcceptedLoad = Convert.ToInt32(layerSplit[5]);
+        Code = layerSplit[1];
+        PointOfUse = (PointOfUseType)Array.IndexOf(Variables.pointOfUseLayer, layerSplit[3]);
+        AcceptedLoad = Convert.ToInt32(layerSplit[4]);
         PavementArea = pavementArea;
         IsInsidePlot = isInsidePlot;
         Position = position;
@@ -37,8 +31,8 @@ public class GrassPavementModel : IPavement
             PointOfUseType.UtilityZone => "хозяйственные площадки",
             PointOfUseType.RestZone => "площадки отдыха",
             PointOfUseType.Greenery => "территория озеленения",
-            _ => throw new Exception("Неизвестное место применения")
+            _ => throw new Exception("Ееправильное место применения для газонного покрытия")
         };
-        PavementFullName = $"Покрытие из посевногов георешетке ({type}). Основание под нагрузку {AcceptedLoad} т/ось.";
+        PavementFullName = $"Покрытие из газона в георешетке ({type}). Основание под нагрузку {AcceptedLoad} т/ось.";
     }
 }

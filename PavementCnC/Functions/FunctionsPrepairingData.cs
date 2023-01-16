@@ -1,15 +1,14 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.BoundaryRepresentation;
-using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
-using System.Reflection;
-using System.Collections.Generic;
-using AcBr = Autodesk.AutoCAD.BoundaryRepresentation;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using AcBr = Autodesk.AutoCAD.BoundaryRepresentation;
 
 namespace PavementCnC.Functions;
 
@@ -281,7 +280,7 @@ public static class FunctionsPrepairingData
     //Function to get areas for a list on hatches.
     public static List<double> GetHatchArea(List<Hatch> hatchList)
     {
-        List<double> hatchAreaList = new ();
+        List<double> hatchAreaList = new();
         using (DocumentLock lk = doc.LockDocument())
         {
             using (Transaction tr = db.TransactionManager.StartTransaction())

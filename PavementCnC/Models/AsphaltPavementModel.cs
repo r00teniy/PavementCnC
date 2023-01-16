@@ -2,12 +2,11 @@
 using System;
 
 namespace PavementCnC.Models;
-// Layer name structure: pavementLayerStart + typeOfPavement + Code + pavementTypeName + pointOfUse + acceptedLoad
+// Layer name structure: pavementLayerStart + Code + typeOfPavement + pointOfUse + acceptedLoad
 public class AsphaltPavementModel : IPavement
 {
     public PavementType TypeOfPavement { get; private set; } = PavementType.Asphalt;
     public string Code { get; private set; }
-    public string PavementTypeName { get; private set; }
     public string PavementFullName { get; private set; }
     public PointOfUseType PointOfUse { get; private set; }
     public int AcceptedLoad { get; private set; }
@@ -17,13 +16,12 @@ public class AsphaltPavementModel : IPavement
 
     public AsphaltPavementModel(string[] layerSplit, double pavementArea, Point3d position, bool isInsidePlot = true)
     {
-        Code = layerSplit[2];
-        PavementTypeName = layerSplit[3];
-        PointOfUse = (PointOfUseType)Array.IndexOf(Variables.pointOfUseLayer, layerSplit[4]);
-        AcceptedLoad = Convert.ToInt32(layerSplit[5]);
+        Code = layerSplit[1];
+        PointOfUse = (PointOfUseType)Array.IndexOf(Variables.pointOfUseLayer, layerSplit[3]);
+        AcceptedLoad = Convert.ToInt32(layerSplit[4]);
         PavementArea = pavementArea;
         IsInsidePlot = isInsidePlot;
-        Position= position;
+        Position = position;
         var type = PointOfUse switch
         {
             PointOfUseType.Road => "проезды автотранспорта",

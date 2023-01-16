@@ -1,7 +1,5 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.EditorInput;
+﻿using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
-using PavementCnC.Functions;
 
 [assembly: ExtensionApplication(typeof(PavementCnC.MyPlugin))]
 

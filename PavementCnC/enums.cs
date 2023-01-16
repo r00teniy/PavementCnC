@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace PavementCnC;
+﻿namespace PavementCnC;
 
 public enum CurbType
 {
@@ -24,7 +21,7 @@ public enum GreeneryType
     Tree,
     Shrub,
     FlowerBed,
-    Hedge        
+    Hedge
 }
 public enum StreetFurnitureType
 {

@@ -1,10 +1,12 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace PavementCnC.Functions;
 
@@ -16,7 +18,7 @@ public static class ImportFromAutocad
 
     public static List<T> GetAllElementsOfTypeOnLayer<T>(string layer, string xrefName = null) where T : Entity
     {
-        List<T> output = new ();
+        List<T> output = new();
         using (DocumentLock lk = doc.LockDocument())
         {
             using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -41,7 +43,7 @@ public static class ImportFromAutocad
                             break;
                         }
                     }
-                    bTr = (BlockTableRecord)tr.GetObject(xref.BlockTableRecordId, OpenMode.ForRead); 
+                    bTr = (BlockTableRecord)tr.GetObject(xref.BlockTableRecordId, OpenMode.ForRead);
                 }
                 foreach (var item in bTr)
                 {
@@ -62,7 +64,7 @@ public static class ImportFromAutocad
     //Method to get all layer names containing provided string
     public static List<string> GetAllLayersContainingString(string str)
     {
-        List<string> output = new ();
+        List<string> output = new();
         using (Transaction tr = db.TransactionManager.StartTransaction())
         {
             using (DocumentLock acLckDoc = doc.LockDocument())
@@ -84,8 +86,21 @@ public static class ImportFromAutocad
     //Propmpting user for insertion point
     public static Point3d GetInsertionPoint()
     {
-        PromptPointOptions pPtOpts = new ("\nВыберете точку положения таблицы: ");
+        PromptPointOptions pPtOpts = new("\nВыберете точку положения таблицы: ");
         return ed.GetPoint(pPtOpts).Value;
+    }
+    //Prompting user to select an object
+    public static ObjectId? GetObjectIdOfEntity<T>(string type) where T : Entity
+    {
+        var options = new PromptEntityOptions($"\nSelect {type}: ");
+        options.SetRejectMessage($"\nSelected object isn't {type}");
+        options.AddAllowedClass(typeof(T), true);
+        var result = ed.GetEntity(options);
+        if (result.Status == PromptStatus.OK)
+        {
+            return result.ObjectId;
+        }
+        return null;
     }
     //Method to get all attributes from a block
     public static List<Dictionary<string, string>> GetAllAttributesFromBlockReferences(List<BlockReference> brList)
@@ -95,7 +110,7 @@ public static class ImportFromAutocad
         {
             using (DocumentLock acLckDoc = doc.LockDocument())
             {
-                for (var i = 0; i < brList.Count;i++)
+                for (var i = 0; i < brList.Count; i++)
                 {
                     output.Add(new Dictionary<string, string>());
                     foreach (ObjectId id in brList[i].AttributeCollection)
@@ -126,5 +141,33 @@ public static class ImportFromAutocad
             }
         }
         return points;
+    }
+    //Selecting color
+    public static Color PromptForColor()
+    {
+        var dlg = new Autodesk.AutoCAD.Windows.ColorDialog();
+        if (dlg.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+        { return Color.FromColorIndex(ColorMethod.ByAci, 256); }
+        return dlg.Color;
+    }
+    //Selecting lineweight
+    public static LineWeight PromptForLineweight()
+    {
+        var dlg = new Autodesk.AutoCAD.Windows.LineWeightDialog();
+        if (dlg.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+        { return LineWeight.ByLayer; }
+        return dlg.LineWeight;
+    }
+    //Getting hatch pattern dialog
+    [DllImport("acad.exe", EntryPoint = "?acedHatchPalletteDialog@@YA_NPEB_W_NAEAPEA_W@Z", CharSet = CharSet.Auto)]
+    static extern bool acedHatchPalletteDialog(string currentPattern, bool showcustom, out IntPtr newpattern);
+    static public string PromptForHatchPattern()
+    {
+        string sHatchType = "SOLID";
+        IntPtr ptr;
+        bool bRet = acedHatchPalletteDialog(sHatchType, true, out ptr);
+        if (bRet)
+        { return Marshal.PtrToStringAuto(ptr); }
+        return "";
     }
 }

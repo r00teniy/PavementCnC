@@ -1,17 +1,12 @@
 ﻿using Autodesk.AutoCAD.Geometry;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PavementCnC.Models;
-// Layer name structure: pavementLayerStart + typeOfPavement + Code + tileSize + tileColor + pavementTypeName + pointOfUse + acceptedLoad + tileManufacturer + tileCollection
+// Layer name structure: pavementLayerStart + Code + typeOfPavement + pointOfUse + tileSize + tileColor + tileManufacturer + tileCollection + acceptedLoad
 public class TilesPavementModel : IPavement
 {
     public PavementType TypeOfPavement { get; private set; } = PavementType.Tiles;
     public string Code { get; private set; }
-    public string PavementTypeName { get; private set; }
     public string PavementFullName { get; private set; }
     public PointOfUseType PointOfUse { get; private set; }
     public int AcceptedLoad { get; private set; }
@@ -23,19 +18,18 @@ public class TilesPavementModel : IPavement
     public bool IsInsidePlot { get; private set; }
     public Point3d Position { get; private set; }
 
-    public TilesPavementModel(string[] layerSplit, double pavementArea, Point3d position, bool isInsidePlot = true)
+    public TilesPavementModel(string[] layerSplit, double pavementArea, Point3d position, bool isInsidePlot)
     {
-        Code = layerSplit[2];
-        PavementTypeName = layerSplit[5];
-        PointOfUse = (PointOfUseType)Array.IndexOf(Variables.pointOfUseLayer, layerSplit[6]);
-        AcceptedLoad = Convert.ToInt32(layerSplit[7]);
+        Code = layerSplit[1];
+        PointOfUse = (PointOfUseType)Array.IndexOf(Variables.pointOfUseLayer, layerSplit[3]);
+        TileSize = layerSplit[4];
+        TileColor = layerSplit[5];
+        TileManufacturer = layerSplit[6];
+        TileCollection = layerSplit[7];
+        AcceptedLoad = Convert.ToInt32(layerSplit[8]);
         PavementArea = pavementArea;
-        TileSize = layerSplit[3];
-        TileManufacturer = layerSplit[8];
-        TileColor = layerSplit[4];
-        TileCollection = layerSplit[9];
         IsInsidePlot = isInsidePlot;
-        Position= position;
+        Position = position;
         var type = PointOfUse switch
         {
             PointOfUseType.Road => "проезды автотранспорта",

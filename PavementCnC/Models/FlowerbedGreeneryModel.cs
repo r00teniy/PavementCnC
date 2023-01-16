@@ -1,9 +1,4 @@
 ﻿using Autodesk.AutoCAD.Geometry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PavementCnC.Models;
 // Layer name structure: greeneryNameStart + TypeOfGreenery + GreeneryName + FlowerSpecies + HasSpecialPavement (1/0) + SpecialPavementName

@@ -1,9 +1,8 @@
-﻿using PavementCnC.Models;
+﻿using Autodesk.AutoCAD.DatabaseServices;
+using PavementCnC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PavementCnC.Functions;
-using Autodesk.AutoCAD.DatabaseServices;
 
 namespace PavementCnC.Functions;
 
@@ -36,7 +35,7 @@ public static class ModelCreation
         {
             pavements.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Hatch>(pavementLayer));
         }
-        List<List<BlockReference>> greeneryItems = new ();
+        List<List<BlockReference>> greeneryItems = new();
         foreach (var greeneryLayer in greeneryItemsLayers)
         {
             greeneryItems.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<BlockReference>(greeneryLayer));
@@ -52,10 +51,10 @@ public static class ModelCreation
             streetFurniture.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<BlockReference>(streetFurnitureLayer));
         }
         //Creating new models for each element
-        List<CurbModel> curbModels= new List<CurbModel>();
+        List<CurbModel> curbModels = new List<CurbModel>();
         for (int i = 0; i < curbLayers.Count; i++)
         {
-            for (var j = 0; j < curbs[i].Count;j++)
+            for (var j = 0; j < curbs[i].Count; j++)
             {
                 curbModels.Add(new CurbModel(curbLayers[i], curbs[i][j].Length, areCurbsInsidePlot[i][j]));
             }
@@ -68,42 +67,42 @@ public static class ModelCreation
             arePavementsInsidePlot = FunctionsPrepairingData.AreObjectsInsidePlot(plotBorders, pavements[i]);
             var pavementAreas = FunctionsPrepairingData.GetHatchArea(pavements[i]);
             var pavementPositions = ImportFromAutocad.GetCenterOfAHatch(pavements[i]);
-            switch (layerSplit[1])
+            switch (Array.IndexOf(Variables.typeOfPavement, layerSplit[2]))
             {
-                case "Асфальтовое":
-                    for (var j = 0; j < pavementAreas.Count;j++)
+                case 0:
+                    for (var j = 0; j < pavementAreas.Count; j++)
                     {
                         pavementModels.Add(new AsphaltPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
                     }
                     break;
-                case "Бетоннное":
+                case 1:
                     for (var j = 0; j < pavementAreas.Count; j++)
                     {
-                        pavementModels.Add(new ConcretePavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
+                        pavementModels.Add(new TilesPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
                     }
                     break;
-                case "Газоннное":
-                    for (var j = 0; j < pavementAreas.Count; j++)
-                    {
-                        pavementModels.Add(new GrassPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
-                    }
-                    break;
-                case "Насыпное":
+                case 2:
                     for (var j = 0; j < pavementAreas.Count; j++)
                     {
                         pavementModels.Add(new LooseFillPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
                     }
                     break;
-                case "Резиновое":
+                case 3:
+                    for (var j = 0; j < pavementAreas.Count; j++)
+                    {
+                        pavementModels.Add(new ConcretePavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
+                    }
+                    break;
+                case 4:
                     for (var j = 0; j < pavementAreas.Count; j++)
                     {
                         pavementModels.Add(new RubberPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
                     }
                     break;
-                case "Плиточное":
+                case 5:
                     for (var j = 0; j < pavementAreas.Count; j++)
                     {
-                        pavementModels.Add(new TilesPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
+                        pavementModels.Add(new GrassPavementModel(layerSplit, pavementAreas[j], pavementPositions[j], arePavementsInsidePlot[j]));
                     }
                     break;
                 default:
@@ -114,10 +113,10 @@ public static class ModelCreation
         for (int i = 0; i < greeneryItemsLayers.Count; i++)
         {
             var layerSplit = greeneryItemsLayers[i].Split('+');
-            switch (layerSplit[1])
+            switch (layerSplit[2])
             {
                 case "Дерево":
-                    for (var j = 0; j < greeneryItems[i].Count;j++)
+                    for (var j = 0; j < greeneryItems[i].Count; j++)
                     {
                         greeneryModels.Add(new TreeGreeneryModel(GreeneryType.Tree, layerSplit, greeneryItems[i][j].Position));
                     }
@@ -161,7 +160,7 @@ public static class ModelCreation
         foreach (var furn in streetFurniture)
         {
             var attr = ImportFromAutocad.GetAllAttributesFromBlockReferences(furn);
-            for (var i = 0; i < furn.Count;i++)
+            for (var i = 0; i < furn.Count; i++)
             {
                 streetFurnitureModels.Add(new StreetFurnitureModel(attr[i], furn[i].Position));
             }

@@ -1,9 +1,6 @@
 ﻿using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PavementCnC.Models;
 
@@ -17,7 +14,7 @@ public class StreetFurnitureModel
     public Point3d Position { get; set; }
     //do we need foundation prop?
 
-    public StreetFurnitureModel(Dictionary<string,string> attr, Point3d position)
+    public StreetFurnitureModel(Dictionary<string, string> attr, Point3d position)
     {
         TypeOfFurniture = attr["Тип"] switch
         {
@@ -33,5 +30,5 @@ public class StreetFurnitureModel
         FurnitureId = attr["Артикул"];
         DropHeight = Convert.ToDouble(attr["Выс.Падения"]);
         Position = position;
-    }        
+    }
 }
