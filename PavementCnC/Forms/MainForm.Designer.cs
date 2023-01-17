@@ -30,6 +30,8 @@
         {
             this.tabsControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.hatchStyleCreate = new System.Windows.Forms.Button();
+            this.hatchStyleBox = new System.Windows.Forms.ComboBox();
             this.cPaveHatch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.pavementListBox = new System.Windows.Forms.ListBox();
@@ -38,8 +40,6 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.bClose = new System.Windows.Forms.Button();
-            this.hatchStyleBox = new System.Windows.Forms.ComboBox();
-            this.hatchStyleCreate = new System.Windows.Forms.Button();
             this.tabsControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -71,6 +71,24 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Покрытия";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // hatchStyleCreate
+            // 
+            this.hatchStyleCreate.Location = new System.Drawing.Point(6, 109);
+            this.hatchStyleCreate.Name = "hatchStyleCreate";
+            this.hatchStyleCreate.Size = new System.Drawing.Size(166, 22);
+            this.hatchStyleCreate.TabIndex = 6;
+            this.hatchStyleCreate.Text = "Создать новый стиль штрих.";
+            this.hatchStyleCreate.UseVisualStyleBackColor = true;
+            this.hatchStyleCreate.Click += new System.EventHandler(this.hatchStyleCreate_Click);
+            // 
+            // hatchStyleBox
+            // 
+            this.hatchStyleBox.FormattingEnabled = true;
+            this.hatchStyleBox.Location = new System.Drawing.Point(11, 80);
+            this.hatchStyleBox.Name = "hatchStyleBox";
+            this.hatchStyleBox.Size = new System.Drawing.Size(158, 21);
+            this.hatchStyleBox.TabIndex = 5;
             // 
             // cPaveHatch
             // 
@@ -123,7 +141,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(287, 148);
+            this.tabPage2.Size = new System.Drawing.Size(301, 166);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Озеленение";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -132,7 +150,7 @@
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(287, 148);
+            this.tabPage3.Size = new System.Drawing.Size(301, 166);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Таблицы?";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -146,23 +164,6 @@
             this.bClose.Text = "Закрыть";
             this.bClose.UseVisualStyleBackColor = true;
             this.bClose.Click += new System.EventHandler(this.bClose_Click);
-            // 
-            // hatchStyleBox
-            // 
-            this.hatchStyleBox.FormattingEnabled = true;
-            this.hatchStyleBox.Location = new System.Drawing.Point(11, 80);
-            this.hatchStyleBox.Name = "hatchStyleBox";
-            this.hatchStyleBox.Size = new System.Drawing.Size(158, 21);
-            this.hatchStyleBox.TabIndex = 5;
-            // 
-            // hatchStyleCreate
-            // 
-            this.hatchStyleCreate.Location = new System.Drawing.Point(6, 109);
-            this.hatchStyleCreate.Name = "hatchStyleCreate";
-            this.hatchStyleCreate.Size = new System.Drawing.Size(166, 22);
-            this.hatchStyleCreate.TabIndex = 6;
-            this.hatchStyleCreate.Text = "Создать новый стиль штрих.";
-            this.hatchStyleCreate.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 

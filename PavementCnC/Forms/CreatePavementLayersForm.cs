@@ -234,7 +234,7 @@ namespace PavementCnC.Forms
                         throw new System.Exception("Неизвестный тип покрытия");
                 }
                 mainForm.pavementTypeBox.DataSource = Variables.currentPavements.Select(x => x[0]).ToList();
-                mainForm.pavementTypeBox.SelectedIndex = Variables.currentPavements.Count-1;
+                mainForm.pavementTypeBox.SelectedIndex = Variables.currentPavements.Count - 1;
                 mainForm.pavementListBox.DataSource = Variables.currentPavements[Variables.currentPavements.Count - 1];
             }
             else
@@ -245,7 +245,6 @@ namespace PavementCnC.Forms
 
         private void closeButton_Click(object sender, EventArgs e)
         {
-            
             CreatePavementLayersForm obj = (CreatePavementLayersForm)Application.OpenForms["CreatePavementLayersForm"];
             obj.Close();
         }

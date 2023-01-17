@@ -1,5 +1,4 @@
-﻿using Autodesk.AutoCAD.Windows.Data;
-using PavementCnC.Functions;
+﻿using PavementCnC.Functions;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -48,6 +47,12 @@ namespace PavementCnC.Forms
             this.Hide();
             ExportResultsToAutocad.CreateNewHatch(Variables.pavementLayerStart, Variables.currentPavements[pavementTypeBox.SelectedIndex], Variables.hatchStyles[hatchStyleBox.SelectedIndex]);
             this.Show();
+        }
+
+        private void hatchStyleCreate_Click(object sender, EventArgs e)
+        {
+            CreateHatchStyleForm hatchStyleForm= new CreateHatchStyleForm(this);
+            hatchStyleForm.Show();
         }
     }
 }

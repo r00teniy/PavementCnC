@@ -37,15 +37,17 @@ public static class ExportResultsToAutocad
     }
     //Create Mleaders for everything
     //Create hatch  based on layer? pattern/size/color?
-    public static void CreateNewHatch(string layerSt, string[] layerParts, Dictionary<string,string> style)
+    public static void CreateNewHatch(string layerSt, string[] layerParts, Dictionary<string, string> style)
     {
         ObjectId? objId = null;
         while (objId == null)
         {
             objId = ImportFromAutocad.GetObjectIdOfEntity<Polyline>("Polyline");
         }
-        ObjectIdCollection ObjIds = new ObjectIdCollection();
-        ObjIds.Add((ObjectId)objId);
+        ObjectIdCollection ObjIds = new ObjectIdCollection
+        {
+            (ObjectId)objId
+        };
         using (DocumentLock lk = doc.LockDocument())
         {
             using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -59,14 +61,19 @@ public static class ExportResultsToAutocad
                 oHatch.Normal = normal;
                 oHatch.Elevation = 0.0;
                 oHatch.PatternScale = Double.Parse(style["scale"]);
-                oHatch.PatternAngle = 0.0;
-                oHatch.ColorIndex = 7;
-                oHatch.BackgroundColor = Color.FromColorIndex(ColorMethod.ByLayer, 256);
+                oHatch.PatternAngle = Double.Parse(style["rotation"]);
+                if (style["hasBackground"] == "true")
+                {
+                    oHatch.ColorIndex = 7;
+                    oHatch.BackgroundColor = Color.FromColorIndex(ColorMethod.ByLayer, 256);
+                }
+                else
+                {
+                    oHatch.ColorIndex = 256;
+                }
                 oHatch.Transparency = new Transparency(TransparencyMethod.ByLayer);
-                oHatch.Layer = layerSt+"+"+string.Join("+",layerParts);
-                // !!IMPORTANT You must reaffirm the hatch pattern  
-                //oHatch.SetHatchPattern(HatchPatternType.UserDefined, "SOLID");
-                // Then you can proceed as normal  
+                oHatch.Layer = layerSt + "+" + string.Join("+", layerParts);
+
                 btr.AppendEntity(oHatch);
                 tr.AddNewlyCreatedDBObject(oHatch, true);
 
