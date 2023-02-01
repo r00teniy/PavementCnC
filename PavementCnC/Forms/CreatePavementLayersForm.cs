@@ -1,6 +1,7 @@
 ﻿using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using PavementCnC.Functions;
+using PavementCnC.Models;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -26,169 +27,187 @@ namespace PavementCnC.Forms
         {
             switch (Array.IndexOf(Variables.typeOfPavement, typeOfРavementBox.SelectedItem.ToString()))
             {
-                case 0:
-                    isInsideGeogrid.Visible = false;
+                case 0://asphalt
+                    acceptedLoadLabel.Visible = true;
+                    acceptedLoadBox.Visible = true; // all but rubber
+                    //concrete & asphalt
+                    paramBox.Visible = true;
+                    paramLabel.Visible = true;
+                    //loose fill
                     isInGeogridBox.Visible = false;
                     fillMaterial.Visible = false;
                     fillMaterialBox.Visible = false;
                     grainSize.Visible = false;
                     grainSizeBox.Visible = false;
-                    concreteClass.Visible = false;
-                    concreteClassBox.Visible = false;
+                    //rubber
                     safeDropHeight.Visible = false;
                     safeDropHeightBox.Visible = false;
-                    rubberColor.Visible = false;
-                    rubberColorBox.Visible = false;
                     rubberManufacturer.Visible = false;
                     rubberManufacturerBox.Visible = false;
                     rubberMaterialName.Visible = false;
                     rubberMaterialNameBox.Visible = false;
                     rubberThickness.Visible = false;
                     rubberThicknessBox.Visible = false;
+                    rubberModelLabel.Visible = false;
+                    rubberModelBox.Visible = false;
+                    //Tiles
                     tileCollection.Visible = false;
                     tileCollectionBox.Visible = false;
-                    tileColor.Visible = false;
-                    tileColorBox.Visible = false;
                     tileManufacturer.Visible = false;
                     tileManufacturerBox.Visible = false;
                     tileSize.Visible = false;
                     tileSizeBox.Visible = false;
                     break;
-                case 1:
-                    isInsideGeogrid.Visible = false;
+                case 1: //tiles
+                    acceptedLoadLabel.Visible = true;
+                    acceptedLoadBox.Visible = true;// all but rubber
+                    //concrete & asphalt
+                    paramBox.Visible = false;
+                    paramLabel.Visible = false;
+                    //loose fill
                     isInGeogridBox.Visible = false;
                     fillMaterial.Visible = false;
                     fillMaterialBox.Visible = false;
                     grainSize.Visible = false;
                     grainSizeBox.Visible = false;
-                    concreteClass.Visible = false;
-                    concreteClassBox.Visible = false;
+                    //rubber
                     safeDropHeight.Visible = false;
                     safeDropHeightBox.Visible = false;
-                    rubberColor.Visible = false;
-                    rubberColorBox.Visible = false;
                     rubberManufacturer.Visible = false;
                     rubberManufacturerBox.Visible = false;
                     rubberMaterialName.Visible = false;
                     rubberMaterialNameBox.Visible = false;
                     rubberThickness.Visible = false;
                     rubberThicknessBox.Visible = false;
+                    rubberModelLabel.Visible = false;
+                    rubberModelBox.Visible = false;
+                    //Tiles
                     tileCollection.Visible = true;
                     tileCollectionBox.Visible = true;
-                    tileColor.Visible = true;
-                    tileColorBox.Visible = true;
                     tileManufacturer.Visible = true;
                     tileManufacturerBox.Visible = true;
                     tileSize.Visible = true;
                     tileSizeBox.Visible = true;
                     break;
-                case 2:
-                    isInsideGeogrid.Visible = true;
+                case 2: //loose fill
+                    acceptedLoadLabel.Visible = true;
+                    acceptedLoadBox.Visible = true;// all but rubber
+                    //concrete & asphalt
+                    paramBox.Visible = false;
+                    paramLabel.Visible = false;
+                    //loose fill
                     isInGeogridBox.Visible = true;
                     fillMaterial.Visible = true;
                     fillMaterialBox.Visible = true;
                     grainSize.Visible = true;
                     grainSizeBox.Visible = true;
-                    concreteClass.Visible = false;
-                    concreteClassBox.Visible = false;
+                    //rubber
                     safeDropHeight.Visible = false;
                     safeDropHeightBox.Visible = false;
-                    rubberColor.Visible = false;
-                    rubberColorBox.Visible = false;
                     rubberManufacturer.Visible = false;
                     rubberManufacturerBox.Visible = false;
                     rubberMaterialName.Visible = false;
                     rubberMaterialNameBox.Visible = false;
                     rubberThickness.Visible = false;
                     rubberThicknessBox.Visible = false;
+                    rubberModelLabel.Visible = false;
+                    rubberModelBox.Visible = false;
+                    //Tiles
                     tileCollection.Visible = false;
                     tileCollectionBox.Visible = false;
-                    tileColor.Visible = false;
-                    tileColorBox.Visible = false;
                     tileManufacturer.Visible = false;
                     tileManufacturerBox.Visible = false;
                     tileSize.Visible = false;
                     tileSizeBox.Visible = false;
                     break;
-                case 3:
-                    isInsideGeogrid.Visible = false;
+                case 3: //concrete
+                    acceptedLoadLabel.Visible = true;
+                    acceptedLoadBox.Visible = true;// all but rubber
+                    //concrete & asphalt
+                    paramBox.Visible = true;
+                    paramLabel.Visible = true;
+                    //loose fill
                     isInGeogridBox.Visible = false;
                     fillMaterial.Visible = false;
                     fillMaterialBox.Visible = false;
                     grainSize.Visible = false;
                     grainSizeBox.Visible = false;
-                    concreteClass.Visible = true;
-                    concreteClassBox.Visible = true;
+                    //rubber
                     safeDropHeight.Visible = false;
                     safeDropHeightBox.Visible = false;
-                    rubberColor.Visible = false;
-                    rubberColorBox.Visible = false;
                     rubberManufacturer.Visible = false;
                     rubberManufacturerBox.Visible = false;
                     rubberMaterialName.Visible = false;
                     rubberMaterialNameBox.Visible = false;
                     rubberThickness.Visible = false;
                     rubberThicknessBox.Visible = false;
+                    rubberModelLabel.Visible = false;
+                    rubberModelBox.Visible = false;
+                    //Tiles
                     tileCollection.Visible = false;
                     tileCollectionBox.Visible = false;
-                    tileColor.Visible = false;
-                    tileColorBox.Visible = false;
                     tileManufacturer.Visible = false;
                     tileManufacturerBox.Visible = false;
                     tileSize.Visible = false;
                     tileSizeBox.Visible = false;
                     break;
-                case 4:
-                    isInsideGeogrid.Visible = false;
+                case 4: //rubber
+                    acceptedLoadLabel.Visible = false;
+                    acceptedLoadBox.Visible = false; // all but rubber
+                    //concrete & asphalt
+                    paramBox.Visible = false;
+                    paramLabel.Visible = false;
+                    //loose fill
                     isInGeogridBox.Visible = false;
                     fillMaterial.Visible = false;
                     fillMaterialBox.Visible = false;
                     grainSize.Visible = false;
                     grainSizeBox.Visible = false;
-                    concreteClass.Visible = false;
-                    concreteClassBox.Visible = false;
+                    //rubber
                     safeDropHeight.Visible = true;
                     safeDropHeightBox.Visible = true;
-                    rubberColor.Visible = true;
-                    rubberColorBox.Visible = true;
                     rubberManufacturer.Visible = true;
                     rubberManufacturerBox.Visible = true;
                     rubberMaterialName.Visible = true;
                     rubberMaterialNameBox.Visible = true;
                     rubberThickness.Visible = true;
                     rubberThicknessBox.Visible = true;
+                    rubberModelLabel.Visible = true;
+                    rubberModelBox.Visible = true;
+                    //Tiles
                     tileCollection.Visible = false;
                     tileCollectionBox.Visible = false;
-                    tileColor.Visible = false;
-                    tileColorBox.Visible = false;
                     tileManufacturer.Visible = false;
                     tileManufacturerBox.Visible = false;
                     tileSize.Visible = false;
                     tileSizeBox.Visible = false;
                     break;
-                case 5:
-                    isInsideGeogrid.Visible = false;
+                case 5: //grass in geogrid
+                    acceptedLoadLabel.Visible = true;
+                    acceptedLoadBox.Visible = true; // all but rubber
+                    //concrete & asphalt
+                    paramBox.Visible = true;
+                    paramLabel.Visible = true;
+                    //loose fill
                     isInGeogridBox.Visible = false;
                     fillMaterial.Visible = false;
                     fillMaterialBox.Visible = false;
                     grainSize.Visible = false;
                     grainSizeBox.Visible = false;
-                    concreteClass.Visible = false;
-                    concreteClassBox.Visible = false;
+                    //rubber
                     safeDropHeight.Visible = false;
                     safeDropHeightBox.Visible = false;
-                    rubberColor.Visible = false;
-                    rubberColorBox.Visible = false;
                     rubberManufacturer.Visible = false;
                     rubberManufacturerBox.Visible = false;
                     rubberMaterialName.Visible = false;
                     rubberMaterialNameBox.Visible = false;
                     rubberThickness.Visible = false;
                     rubberThicknessBox.Visible = false;
+                    rubberModelLabel.Visible = false;
+                    rubberModelBox.Visible = false;
+                    //Tiles
                     tileCollection.Visible = false;
                     tileCollectionBox.Visible = false;
-                    tileColor.Visible = false;
-                    tileColorBox.Visible = false;
                     tileManufacturer.Visible = false;
                     tileManufacturerBox.Visible = false;
                     tileSize.Visible = false;
@@ -201,34 +220,35 @@ namespace PavementCnC.Forms
 
         private void createLayerButton_Click(object sender, EventArgs e)
         {
+            var accLoad = acceptedLoadBox.Text.Replace(',','.');
             if (CheckInputData())
             {
                 switch (Array.IndexOf(Variables.typeOfPavement, typeOfРavementBox.SelectedItem.ToString()))
                 {
-                    case 0:
-                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[0], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], acceptedLoadBox.Text });
-                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[0]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{acceptedLoadBox.Text}", selectedColor, selectedLineWeight, selectedTransparency);
+                    case 0: //apshalt
+                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[0], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], colorBox.Text,accLoad });
+                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[0]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{colorBox.Text}+{accLoad}", selectedColor, selectedLineWeight, selectedTransparency);
                         break;
-                    case 1:
-                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[1], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], tileSizeBox.Text, tileColorBox.Text, tileManufacturerBox.Text, tileCollectionBox.Text, acceptedLoadBox.Text });
-                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[1]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{tileSizeBox.Text}+{tileColorBox.Text}+{tileManufacturerBox.Text}+{tileCollectionBox.Text}+{acceptedLoadBox.Text}", selectedColor, selectedLineWeight, selectedTransparency);
+                    case 1: //tiles
+                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[1], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], tileSizeBox.Text, colorBox.Text, tileManufacturerBox.Text, tileCollectionBox.Text, accLoad });
+                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[1]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{tileSizeBox.Text}+{colorBox.Text}+{tileManufacturerBox.Text}+{tileCollectionBox.Text}+{accLoad}", selectedColor, selectedLineWeight, selectedTransparency);
                         break;
-                    case 2:
+                    case 2: //loose fill
                         var inGeogrid = isInGeogridBox.Checked ? "в георешетке" : " ";
-                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[2], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], fillMaterialBox.Text, grainSizeBox.Text, inGeogrid, acceptedLoadBox.Text });
-                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[2]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{fillMaterialBox.Text}+{grainSizeBox.Text}+{inGeogrid}+{acceptedLoadBox.Text}", selectedColor, selectedLineWeight, selectedTransparency);
+                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[2], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], colorBox.Text, fillMaterialBox.Text, grainSizeBox.Text, inGeogrid, accLoad });
+                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[2]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{fillMaterialBox.Text}+{grainSizeBox.Text}+{inGeogrid}+{colorBox.Text}+{accLoad}", selectedColor, selectedLineWeight, selectedTransparency);
                         break;
-                    case 3:
-                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[3], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], concreteClassBox.Text, acceptedLoadBox.Text });
-                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[3]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{concreteClassBox.Text}+{acceptedLoadBox.Text}", selectedColor, selectedLineWeight, selectedTransparency);
+                    case 3: // concrete
+                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[3], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], paramBox.Text, colorBox.Text, accLoad });
+                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[3]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{paramBox.Text}+{colorBox.Text}+{accLoad}", selectedColor, selectedLineWeight, selectedTransparency);
                         break;
-                    case 4:
-                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[4], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], rubberMaterialNameBox.Text, rubberManufacturerBox.Text, rubberColorBox.Text, rubberThicknessBox.Text, safeDropHeightBox.Text });
-                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[4]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{rubberMaterialNameBox.Text}+{rubberManufacturerBox.Text}+{rubberColorBox.Text}+{rubberThicknessBox.Text}+{safeDropHeightBox.Text}", selectedColor, selectedLineWeight, selectedTransparency);
+                    case 4: //rubber
+                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[4], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], rubberMaterialNameBox.Text, rubberManufacturerBox.Text, colorBox.Text, rubberModelBox.Text, rubberThicknessBox.Text, safeDropHeightBox.Text.Replace(',', '.') });
+                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[4]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{rubberMaterialNameBox.Text}+{rubberManufacturerBox.Text}+{colorBox.Text}+{rubberModelBox.Text}+{rubberThicknessBox.Text}+{safeDropHeightBox.Text.Replace(',','.')}", selectedColor, selectedLineWeight, selectedTransparency);
                         break;
-                    case 5:
-                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[5], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], acceptedLoadBox.Text });
-                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[5]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{acceptedLoadBox.Text}", selectedColor, selectedLineWeight, selectedTransparency);
+                    case 5: //grass in geogrid
+                        Variables.currentPavements.Add(new string[] { pavementTypeNameBox.Text, Variables.typeOfPavement[5], Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())], paramBox.Text, colorBox.Text, accLoad });
+                        ExportResultsToAutocad.CreateLayerIfDontExist($"{Variables.pavementLayerStart}+{pavementTypeNameBox.Text}+{Variables.typeOfPavement[5]}+{Variables.pointOfUseLayer[Array.IndexOf(Variables.pointOfUseText, pointOfUseBox.SelectedItem.ToString())]}+{paramBox.Text}+{colorBox.Text}+{accLoad}", selectedColor, selectedLineWeight, selectedTransparency);
                         break;
                     default:
                         throw new System.Exception("Неизвестный тип покрытия");
@@ -236,6 +256,7 @@ namespace PavementCnC.Forms
                 mainForm.pavementTypeBox.DataSource = Variables.currentPavements.Select(x => x[0]).ToList();
                 mainForm.pavementTypeBox.SelectedIndex = Variables.currentPavements.Count - 1;
                 mainForm.pavementListBox.DataSource = Variables.currentPavements[Variables.currentPavements.Count - 1];
+                MessageBox.Show("Слой создан", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -248,8 +269,13 @@ namespace PavementCnC.Forms
             CreatePavementLayersForm obj = (CreatePavementLayersForm)Application.OpenForms["CreatePavementLayersForm"];
             obj.Close();
         }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            mainForm.Show();
+        }
         private bool CheckInputData()
         {
+            ErrorText = "";
             var output = true;
             if (selectedColor == null)
             { output = false; }
@@ -268,11 +294,14 @@ namespace PavementCnC.Forms
                 output = false;
                 ErrorText += "Необходимо ввести имя типа покрытия \n";
             }
-            var acceptedLoad = FormValidation.CheckIntField(acceptedLoadBox.Text);
-            if (acceptedLoad == null)
+            if (typeOfРavementBox.SelectedIndex != 4)
             {
-                output = false;
-                ErrorText += "Допустимая нагрузка должна быть целым числом \n";
+                var acceptedLoad = FormValidation.CheckDoubleField(acceptedLoadBox.Text);
+                if (acceptedLoad == null)
+                {
+                    output = false;
+                    ErrorText += "Допустимая нагрузка должна быть числом \n";
+                }
             }
             var transp = FormValidation.CheckIntField(transparencyBox.Text);
             if (transp == null || transp < 0 || transp > 100)
@@ -284,20 +313,25 @@ namespace PavementCnC.Forms
             {
                 selectedTransparency = (int)transp;
             }
+            if (!FormValidation.CheckTextField(colorBox.Text))
+            {
+                output = false;
+                ErrorText += "Необходимо ввести цвет покрытия \n";
+            }
             switch (Array.IndexOf(Variables.typeOfPavement, typeOfРavementBox.SelectedItem.ToString()))
             {
-                case 0:
+                case 0: // asphalt
+                    if (!FormValidation.CheckTextField(paramBox.Text))
+                    {
+                        output = false;
+                        ErrorText += "Необходимо ввести параметры покрытия \n";
+                    }
                     break;
-                case 1:
+                case 1: //tiles
                     if (!FormValidation.CheckTextField(tileCollectionBox.Text))
                     {
                         output = false;
                         ErrorText += "Необходимо ввести коллекцию \n";
-                    }
-                    if (!FormValidation.CheckTextField(tileColorBox.Text))
-                    {
-                        output = false;
-                        ErrorText += "Необходимо ввести цвет \n";
                     }
                     if (!FormValidation.CheckTextField(tileManufacturerBox.Text))
                     {
@@ -310,7 +344,7 @@ namespace PavementCnC.Forms
                         ErrorText += "Необходимо ввести размер \n";
                     }
                     break;
-                case 2:
+                case 2: //lose fill
                     if (!FormValidation.CheckTextField(fillMaterialBox.Text))
                     {
                         output = false;
@@ -322,19 +356,14 @@ namespace PavementCnC.Forms
                         ErrorText += "Необходимо ввести фракцию \n";
                     }
                     break;
-                case 3:
-                    if (!FormValidation.CheckTextField(concreteClassBox.Text))
+                case 3: //concrete
+                    if (!FormValidation.CheckTextField(paramBox.Text))
                     {
                         output = false;
-                        ErrorText += "Необходимо ввести класс/марку бетона \n";
+                        ErrorText += "Необходимо ввести параметры бетона \n";
                     }
                     break;
-                case 4:
-                    if (!FormValidation.CheckTextField(rubberColorBox.Text))
-                    {
-                        output = false;
-                        ErrorText += "Необходимо ввести цвет покрытия \n";
-                    }
+                case 4: //rubber
                     if (!FormValidation.CheckTextField(rubberManufacturerBox.Text))
                     {
                         output = false;
@@ -359,6 +388,11 @@ namespace PavementCnC.Forms
                     }
                     break;
                 case 5:
+                    if (!FormValidation.CheckTextField(paramBox.Text))
+                    {
+                        output = false;
+                        ErrorText += "Необходимо ввести параметры решетки \n";
+                    }
                     break;
                 default:
                     throw new System.Exception("Неизвестный тип покрытия");

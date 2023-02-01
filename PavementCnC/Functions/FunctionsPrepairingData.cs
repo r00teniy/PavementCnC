@@ -286,12 +286,12 @@ public static class FunctionsPrepairingData
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
                 var bT = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
-                var bTr = (BlockTableRecord)tr.GetObject(bT[BlockTableRecord.ModelSpace], OpenMode.ForRead);
+                var bTr = (BlockTableRecord)tr.GetObject(bT[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
                 for (var i = 0; i < hatchList.Count; i++)
                 {
                     try
                     {
-                        hatchAreaList[i] += hatchList[i].Area;
+                        hatchAreaList.Add(hatchList[i].Area);
                     }
                     catch
                     {
@@ -318,7 +318,7 @@ public static class FunctionsPrepairingData
                                 corArea -= corrval;
                             }
                         }
-                        hatchAreaList[i] += corArea;
+                        hatchAreaList.Add(corArea);
                     }
                 }
             }

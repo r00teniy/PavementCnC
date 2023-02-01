@@ -12,11 +12,18 @@ namespace PavementCnC.Forms
         private MainForm mainForm;
         private string selectedPattern;
         private string ErrorText = "";
+        private List<Dictionary<string, string>> variableToSet;
 
-        public CreateHatchStyleForm(Form callingForm)
+        public CreateHatchStyleForm(Form callingForm, ref List<Dictionary<string, string>> targetVariable)
         {
             mainForm = callingForm as MainForm;
+            variableToSet = targetVariable;
             InitializeComponent();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            mainForm.Show();
         }
 
         private void patternSelect_Click(object sender, EventArgs e)
@@ -36,10 +43,11 @@ namespace PavementCnC.Forms
         {
             if (CheckInput())
             {
-                Variables.hatchStyles.Add( new Dictionary<string, string> { { "styleName", styleNameBox.Text }, { "patName", selectedPattern }, { "scale", scaleBox.Text }, { "rotation", rotationBox.Text }, { "hasBackground", hasBackground.Checked ? "true" : "false" } });
+                variableToSet.Add( new Dictionary<string, string> { { "styleName", styleNameBox.Text }, { "patName", selectedPattern }, { "scale", scaleBox.Text }, { "rotation", rotationBox.Text }, { "hasBackground", hasBackground.Checked ? "true" : "false" } });
                 MessageBox.Show("Стиль добавилен", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                mainForm.hatchStyleBox.DataSource = Variables.hatchStyles;
-                mainForm.hatchStyleBox.SelectedIndex = Variables.hatchStyles.Count - 1;
+                mainForm.pavementHatchStyleBox.DataSource = Variables.pavementHatchStyles;
+                mainForm.pavementHatchStyleBox.SelectedIndex = Variables.pavementHatchStyles.Count - 1;
+                MessageBox.Show("Стиль создан", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {

@@ -22,11 +22,11 @@ public class ConstructionPlotModel
     public List<CurbModel> Curbs { get; set; }
     public List<StreetFurnitureModel> StreetFurniture { get; set; }
     public List<FlowerbedGreeneryModel> Flowerbeds { get; set; }
-    public List<HedgeGreeneryModel> Hedges { get; set; }
-    public List<ShrubGreeneryModel> Shrubs { get; set; }
+    public List<AreaShrubsGreeneryModel> Hedges { get; set; }
+    public List<SingleShrubGreeneryModel> Shrubs { get; set; }
     public List<TreeGreeneryModel> Trees { get; set; }
 
-    public ConstructionPlotModel(List<IPavement> pavementList, List<IGreenery> greeneryList, List<StreetFurnitureModel> streetFurnitureList, List<CurbModel> curbs, double plotArea, double buildingFootprint)
+    public ConstructionPlotModel(List<IPavement> pavementList, List<IGreeneryItem> greeneryItemList, List<IGreeneryArea> greeneryAreaList, List<StreetFurnitureModel> streetFurnitureList, List<CurbModel> curbs, double plotArea, double buildingFootprint)
     {
         Curbs = curbs;
         PlotArea = plotArea;
@@ -40,17 +40,17 @@ public class ConstructionPlotModel
         RubberPavements = pavementList.Where(x => x.TypeOfPavement == PavementType.Rubber).Select(x => x as RubberPavementModel).ToList();
         TilesPavements = pavementList.Where(x => x.TypeOfPavement == PavementType.Tiles).Select(x => x as TilesPavementModel).ToList();
         //Separating greenery by type
-        Flowerbeds = greeneryList.Where(x => x.TypeOfGreenery == GreeneryType.FlowerBed).Select(x => x as FlowerbedGreeneryModel).ToList();
-        Hedges = greeneryList.Where(x => x.TypeOfGreenery == GreeneryType.Hedge).Select(x => x as HedgeGreeneryModel).ToList();
+        Flowerbeds = greeneryItemList.Where(x => x.TypeOfGreenery == GreeneryType.FlowerBed).Select(x => x as FlowerbedGreeneryModel).ToList();
+        /*Hedges = greeneryList.Where(x => x.TypeOfGreenery == GreeneryType.Hedge).Select(x => x as AreaShrubsGreeneryModel).ToList();
         Shrubs = greeneryList.Where(x => x.TypeOfGreenery == GreeneryType.Shrub).Select(x => x as ShrubGreeneryModel).ToList();
-        Trees = greeneryList.Where(x => x.TypeOfGreenery == GreeneryType.Tree).Select(x => x as TreeGreeneryModel).ToList();
+        Trees = greeneryList.Where(x => x.TypeOfGreenery == GreeneryType.Tree).Select(x => x as TreeGreeneryModel).ToList();*/
         //Calculating total area of hard pavements, loose fill, and greenery
-        HardPavementInsidePlot = pavementList.Where(x => x.TypeOfPavement != PavementType.Grass && x.TypeOfPavement != PavementType.LooseFill && x.IsInsidePlot).Select(x => x.PavementArea).Sum();
-        GreeneryAreaInsidePlot = pavementList.Where(x => x.TypeOfPavement == PavementType.Grass && x.IsInsidePlot).Select(x => x.PavementArea).Sum();
-        LooseFillInsidePlot = pavementList.Where(x => x.TypeOfPavement == PavementType.LooseFill && x.IsInsidePlot).Select(x => x.PavementArea).Sum();
-        HardPavementOutsidePlot = pavementList.Where(x => x.TypeOfPavement != PavementType.Grass && x.TypeOfPavement != PavementType.LooseFill && x.IsInsidePlot == false).Select(x => x.PavementArea).Sum();
-        GreeneryAreaOutsidePlot = pavementList.Where(x => x.TypeOfPavement == PavementType.Grass && x.IsInsidePlot == false).Select(x => x.PavementArea).Sum();
-        LooseFillOutsidePlot = pavementList.Where(x => x.TypeOfPavement == PavementType.LooseFill && x.IsInsidePlot == false).Select(x => x.PavementArea).Sum();
+        HardPavementInsidePlot = pavementList.Where(x => x.TypeOfPavement != PavementType.Grass && x.TypeOfPavement != PavementType.LooseFill && x.IsInsidePlot).Select(x => x.Amount).Sum();
+        GreeneryAreaInsidePlot = pavementList.Where(x => x.TypeOfPavement == PavementType.Grass && x.IsInsidePlot).Select(x => x.Amount).Sum();
+        LooseFillInsidePlot = pavementList.Where(x => x.TypeOfPavement == PavementType.LooseFill && x.IsInsidePlot).Select(x => x.Amount).Sum();
+        HardPavementOutsidePlot = pavementList.Where(x => x.TypeOfPavement != PavementType.Grass && x.TypeOfPavement != PavementType.LooseFill && x.IsInsidePlot == false).Select(x => x.Amount).Sum();
+        GreeneryAreaOutsidePlot = pavementList.Where(x => x.TypeOfPavement == PavementType.Grass && x.IsInsidePlot == false).Select(x => x.Amount).Sum();
+        LooseFillOutsidePlot = pavementList.Where(x => x.TypeOfPavement == PavementType.LooseFill && x.IsInsidePlot == false).Select(x => x.Amount).Sum();
     }
 
 }

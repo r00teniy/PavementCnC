@@ -1,33 +1,31 @@
 ﻿using Autodesk.AutoCAD.Geometry;
 using System;
+using System.Globalization;
 
 namespace PavementCnC.Models;
-// Layer name structure: pavementLayerStart + Code + typeOfPavement + pointOfUse + tileSize + tileColor + tileManufacturer + tileCollection + acceptedLoad
-public class TilesPavementModel : IPavement
+// Layer name structure: pavementLayerStart(0) + Code(1) + typeOfPavement(2) + pointOfUse(3) + concreteClass(4) + Color(5) acceptedLoad(6)
+public class ConcretePavementModel : IPavement
 {
-    public PavementType TypeOfPavement { get; private set; } = PavementType.Tiles;
+    public PavementType TypeOfPavement { get; private set; } = PavementType.Concrete;
     public string Code { get; private set; }
-    public string PavementFullName { get; private set; }
+    public string FullName { get; private set; }
     public PointOfUseType PointOfUse { get; private set; }
-    public int AcceptedLoad { get; private set; }
-    public double PavementArea { get; private set; }
-    public string TileSize { get; private set; }
-    public string TileManufacturer { get; private set; }
-    public string TileColor { get; private set; }
-    public string TileCollection { get; private set; }
+    public double Amount { get; private set; }
+    public string ConcreteClass { get; private set; }
     public bool IsInsidePlot { get; private set; }
     public Point3d Position { get; private set; }
+    public string Parameters { get; private set; } = "-";
+    public string Color { get; private set; }
+    public double AcceptedLoad { get; private set; }
 
-    public TilesPavementModel(string[] layerSplit, double pavementArea, Point3d position, bool isInsidePlot)
+    public ConcretePavementModel(string[] layerSplit, double pavementArea, Point3d position, bool isInsidePlot = true)
     {
         Code = layerSplit[1];
         PointOfUse = (PointOfUseType)Array.IndexOf(Variables.pointOfUseLayer, layerSplit[3]);
-        TileSize = layerSplit[4];
-        TileColor = layerSplit[5];
-        TileManufacturer = layerSplit[6];
-        TileCollection = layerSplit[7];
-        AcceptedLoad = Convert.ToInt32(layerSplit[8]);
-        PavementArea = pavementArea;
+        ConcreteClass = layerSplit[4];
+        Color = layerSplit[5];
+        AcceptedLoad = Convert.ToDouble(layerSplit[6], CultureInfo.InvariantCulture);
+        Amount = pavementArea;
         IsInsidePlot = isInsidePlot;
         Position = position;
         var type = PointOfUse switch
@@ -44,6 +42,6 @@ public class TilesPavementModel : IPavement
             PointOfUseType.Greenery => "территория озеленения",
             _ => throw new Exception("Неизвестное место применения")
         };
-        PavementFullName = $"Покрытие из тротуарной плитки {TileManufacturer}, размер {TileSize} ({type}). Коллекция: {TileCollection}, цвет {TileColor}. Основание под нагрузку {AcceptedLoad}т/ось.";
+        FullName = $"Покрытие из бетона {ConcreteClass} ({type}). Основание под нагрузку {AcceptedLoad}т/ось.";
     }
 }

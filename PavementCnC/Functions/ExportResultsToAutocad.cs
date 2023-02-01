@@ -8,10 +8,10 @@ using System.Collections.Generic;
 namespace PavementCnC.Functions;
 public static class ExportResultsToAutocad
 {
-    static Document doc = Application.DocumentManager.MdiActiveDocument;
-    static Database db = Application.DocumentManager.MdiActiveDocument.Database;
     public static void CreateLayerIfDontExist(string layerName, Color color, LineWeight lw, int transp)
     {
+        Document doc = Application.DocumentManager.MdiActiveDocument;
+        Database db = doc.Database;
         using (DocumentLock lk = doc.LockDocument())
         {
             using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -39,6 +39,8 @@ public static class ExportResultsToAutocad
     //Create hatch  based on layer? pattern/size/color?
     public static void CreateNewHatch(string layerSt, string[] layerParts, Dictionary<string, string> style)
     {
+        Document doc = Application.DocumentManager.MdiActiveDocument;
+        Database db = doc.Database;
         ObjectId? objId = null;
         while (objId == null)
         {

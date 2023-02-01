@@ -12,12 +12,12 @@ namespace PavementCnC.Functions;
 
 public static class ImportFromAutocad
 {
-    static Document doc = Application.DocumentManager.MdiActiveDocument;
-    static Database db = Application.DocumentManager.MdiActiveDocument.Database;
-    static Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
+    
 
     public static List<T> GetAllElementsOfTypeOnLayer<T>(string layer, string xrefName = null) where T : Entity
     {
+        Document doc = Application.DocumentManager.MdiActiveDocument;
+        Database db = doc.Database;
         List<T> output = new();
         using (DocumentLock lk = doc.LockDocument())
         {
@@ -50,7 +50,7 @@ public static class ImportFromAutocad
                     if (item.ObjectClass.IsDerivedFrom(RXObject.GetClass(typeof(T))))
                     {
                         var entity = (T)tr.GetObject(item, OpenMode.ForRead);
-                        if (entity.Layer == (layer))
+                        if (entity.Layer == layer)
                         {
                             output.Add(entity);
                         }
@@ -64,6 +64,8 @@ public static class ImportFromAutocad
     //Method to get all layer names containing provided string
     public static List<string> GetAllLayersContainingString(string str)
     {
+        Document doc = Application.DocumentManager.MdiActiveDocument;
+        Database db = doc.Database;
         List<string> output = new();
         using (Transaction tr = db.TransactionManager.StartTransaction())
         {
@@ -86,12 +88,16 @@ public static class ImportFromAutocad
     //Propmpting user for insertion point
     public static Point3d GetInsertionPoint()
     {
+        Document doc = Application.DocumentManager.MdiActiveDocument;
+        Editor ed = doc.Editor;
         PromptPointOptions pPtOpts = new("\nВыберете точку положения таблицы: ");
         return ed.GetPoint(pPtOpts).Value;
     }
     //Prompting user to select an object
     public static ObjectId? GetObjectIdOfEntity<T>(string type) where T : Entity
     {
+        Document doc = Application.DocumentManager.MdiActiveDocument;
+        Editor ed = doc.Editor;
         var options = new PromptEntityOptions($"\nSelect {type}: ");
         options.SetRejectMessage($"\nSelected object isn't {type}");
         options.AddAllowedClass(typeof(T), true);
@@ -105,6 +111,8 @@ public static class ImportFromAutocad
     //Method to get all attributes from a block
     public static List<Dictionary<string, string>> GetAllAttributesFromBlockReferences(List<BlockReference> brList)
     {
+        Document doc = Application.DocumentManager.MdiActiveDocument;
+        Database db = doc.Database;
         var output = new List<Dictionary<string, string>>();
         using (Transaction tr = db.TransactionManager.StartTransaction())
         {
@@ -131,13 +139,10 @@ public static class ImportFromAutocad
     {
         List<Point3d> points = new();
         {
-            using (DocumentLock acLckDoc = doc.LockDocument())
+            foreach (var hat in hatches)
             {
-                foreach (var hat in hatches)
-                {
-                    Extents3d extents = hat.GeometricExtents;
-                    points.Add(extents.MinPoint + (extents.MaxPoint - extents.MinPoint) / 2.0);
-                }
+                Extents3d extents = hat.GeometricExtents;
+                points.Add(extents.MinPoint + (extents.MaxPoint - extents.MinPoint) / 2.0);
             }
         }
         return points;

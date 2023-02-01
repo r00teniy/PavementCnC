@@ -16,12 +16,23 @@ public enum PavementType
     Rubber,
     Grass
 }
+public enum ItemOrArea
+{
+    Item,
+    Area
+}
+
 public enum GreeneryType
 {
-    Tree,
-    Shrub,
+    ConiferTree,
+    DeciduousTree,
+    SingleShrub,
+    Creeper,
+    ConiferShrubs,
+    DeciduousShrubs,
+    DecorativeGrasses,
     FlowerBed,
-    Hedge
+    Grass
 }
 public enum StreetFurnitureType
 {
@@ -44,4 +55,14 @@ public enum PointOfUseType
     UtilityZone = 7,
     RestZone = 8,
     Greenery = 9
+}
+public enum TableType
+{
+    Curbs,
+    Pavements,
+    ItemGreenery,
+    AreaGreenery,
+    GrassGreenery,
+    StreetFurniture,
+    EarthVolumes
 }

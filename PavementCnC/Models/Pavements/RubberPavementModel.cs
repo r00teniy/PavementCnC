@@ -2,19 +2,20 @@
 using System;
 
 namespace PavementCnC.Models;
-// Layer name structure: pavementLayerStart + Code + typeOfPavement + pointOfUse + rubberMaterial + rubberManufacturer + rubberColor + rubberThicknessInMM + safeDropHeightInM
+// Layer name structure: pavementLayerStart(0) + Code(1) + typeOfPavement(2) + pointOfUse(3) + material(4) + manufacturer(5) + color(6) + modelName(7) + parameters(8) + safeDropHeightInM(9)
 public class RubberPavementModel : IPavement
 {
     public PavementType TypeOfPavement { get; private set; } = PavementType.Rubber;
     public string Code { get; private set; }
-    public string PavementFullName { get; private set; }
+    public string FullName { get; private set; }
     public PointOfUseType PointOfUse { get; private set; }
-    public int AcceptedLoad { get; private set; } = 0;
-    public double PavementArea { get; private set; }
-    public string RubberManufacturer { get; private set; }
-    public string RubberColor { get; private set; }
-    public int RubberThicknessInMM { get; private set; }
-    public string RubberMaterial { get; private set; }
+    public double AcceptedLoad { get; private set; } = 0;
+    public double Amount { get; private set; }
+    public string Manufacturer { get; private set; }
+    public string Color { get; private set; }
+    public string ModelName { get; private set; }
+    public string Parameters { get; private set; }
+    public string Material { get; private set; }
     public double SafeDropHeightInM { get; private set; }
     public bool IsInsidePlot { get; private set; }
     public Point3d Position { get; private set; }
@@ -23,12 +24,13 @@ public class RubberPavementModel : IPavement
     {
         Code = layerSplit[1];
         PointOfUse = (PointOfUseType)Array.IndexOf(Variables.pointOfUseLayer, layerSplit[3]);
-        RubberMaterial = layerSplit[4];
-        RubberManufacturer = layerSplit[5];
-        RubberColor = layerSplit[6];
-        RubberThicknessInMM = Convert.ToInt32(layerSplit[7]);
-        SafeDropHeightInM = Convert.ToDouble(layerSplit[8]);
-        PavementArea = pavementArea;
+        Material = layerSplit[4];
+        Manufacturer = layerSplit[5];
+        Color = layerSplit[6];
+        ModelName = layerSplit[7];
+        Parameters = layerSplit[8];
+        SafeDropHeightInM = Convert.ToDouble(layerSplit[9]);
+        Amount = pavementArea;
         IsInsidePlot = isInsidePlot;
         Position = position;
         var type = PointOfUse switch
@@ -37,6 +39,6 @@ public class RubberPavementModel : IPavement
             PointOfUseType.SportZone => "спортивные площадки",
             _ => throw new Exception("Неправильное место применения дял резинового покрытия")
         };
-        PavementFullName = $"Покрытие из {RubberMaterial} {RubberManufacturer} ({type}). Цвет: {RubberColor}, толщина {RubberThicknessInMM}мм";
+        FullName = $"Покрытие из {Material} {Manufacturer} ({type}). Безопасная высота падения {SafeDropHeightInM}м";
     }
 }

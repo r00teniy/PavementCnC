@@ -36,31 +36,23 @@ namespace PavementCnC.Forms
             this.label3 = new System.Windows.Forms.Label();
             this.pavementTypeNameBox = new System.Windows.Forms.TextBox();
             this.acceptedLoadBox = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.concreteClassBox = new System.Windows.Forms.TextBox();
             this.fillMaterialBox = new System.Windows.Forms.TextBox();
             this.grainSizeBox = new System.Windows.Forms.TextBox();
             this.isInGeogridBox = new System.Windows.Forms.CheckBox();
             this.rubberMaterialNameBox = new System.Windows.Forms.TextBox();
             this.rubberManufacturerBox = new System.Windows.Forms.TextBox();
-            this.rubberColorBox = new System.Windows.Forms.TextBox();
+            this.colorBox = new System.Windows.Forms.TextBox();
             this.rubberThicknessBox = new System.Windows.Forms.TextBox();
             this.safeDropHeightBox = new System.Windows.Forms.TextBox();
-            this.concreteClass = new System.Windows.Forms.Label();
             this.grainSize = new System.Windows.Forms.Label();
-            this.fillMaterial = new System.Windows.Forms.Label();
             this.rubberMaterialName = new System.Windows.Forms.Label();
             this.rubberManufacturer = new System.Windows.Forms.Label();
-            this.isInsideGeogrid = new System.Windows.Forms.Label();
-            this.rubberColor = new System.Windows.Forms.Label();
             this.rubberThickness = new System.Windows.Forms.Label();
             this.safeDropHeight = new System.Windows.Forms.Label();
             this.tileSizeBox = new System.Windows.Forms.TextBox();
             this.tileSize = new System.Windows.Forms.Label();
             this.tileManufacturerBox = new System.Windows.Forms.TextBox();
             this.tileManufacturer = new System.Windows.Forms.Label();
-            this.tileColorBox = new System.Windows.Forms.TextBox();
-            this.tileColor = new System.Windows.Forms.Label();
             this.tileCollectionBox = new System.Windows.Forms.TextBox();
             this.tileCollection = new System.Windows.Forms.Label();
             this.createLayerButton = new System.Windows.Forms.Button();
@@ -72,6 +64,13 @@ namespace PavementCnC.Forms
             this.colorLabel = new System.Windows.Forms.Label();
             this.lineweightLabel = new System.Windows.Forms.Label();
             this.lineweightSelect = new System.Windows.Forms.Button();
+            this.acceptedLoadLabel = new System.Windows.Forms.Label();
+            this.fillMaterial = new System.Windows.Forms.Label();
+            this.paramBox = new System.Windows.Forms.TextBox();
+            this.paramLabel = new System.Windows.Forms.Label();
+            this.colorLab = new System.Windows.Forms.Label();
+            this.rubberModelBox = new System.Windows.Forms.TextBox();
+            this.rubberModelLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -147,32 +146,15 @@ namespace PavementCnC.Forms
             // 
             // acceptedLoadBox
             // 
-            this.acceptedLoadBox.Location = new System.Drawing.Point(154, 90);
+            this.acceptedLoadBox.Location = new System.Drawing.Point(154, 115);
             this.acceptedLoadBox.Name = "acceptedLoadBox";
             this.acceptedLoadBox.Size = new System.Drawing.Size(102, 20);
             this.acceptedLoadBox.TabIndex = 7;
             this.acceptedLoadBox.Text = "0";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 92);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(136, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Допустимая нагрузка, т.:";
-            // 
-            // concreteClassBox
-            // 
-            this.concreteClassBox.Location = new System.Drawing.Point(154, 116);
-            this.concreteClassBox.Name = "concreteClassBox";
-            this.concreteClassBox.Size = new System.Drawing.Size(102, 20);
-            this.concreteClassBox.TabIndex = 9;
-            this.concreteClassBox.Visible = false;
-            // 
             // fillMaterialBox
             // 
-            this.fillMaterialBox.Location = new System.Drawing.Point(154, 116);
+            this.fillMaterialBox.Location = new System.Drawing.Point(154, 140);
             this.fillMaterialBox.Name = "fillMaterialBox";
             this.fillMaterialBox.Size = new System.Drawing.Size(102, 20);
             this.fillMaterialBox.TabIndex = 11;
@@ -180,7 +162,7 @@ namespace PavementCnC.Forms
             // 
             // grainSizeBox
             // 
-            this.grainSizeBox.Location = new System.Drawing.Point(154, 142);
+            this.grainSizeBox.Location = new System.Drawing.Point(154, 167);
             this.grainSizeBox.Name = "grainSizeBox";
             this.grainSizeBox.Size = new System.Drawing.Size(102, 20);
             this.grainSizeBox.TabIndex = 13;
@@ -189,16 +171,17 @@ namespace PavementCnC.Forms
             // isInGeogridBox
             // 
             this.isInGeogridBox.AutoSize = true;
-            this.isInGeogridBox.Location = new System.Drawing.Point(154, 168);
+            this.isInGeogridBox.Location = new System.Drawing.Point(154, 198);
             this.isInGeogridBox.Name = "isInGeogridBox";
-            this.isInGeogridBox.Size = new System.Drawing.Size(15, 14);
+            this.isInGeogridBox.Size = new System.Drawing.Size(101, 17);
             this.isInGeogridBox.TabIndex = 15;
+            this.isInGeogridBox.Text = "в георешетке?";
             this.isInGeogridBox.UseVisualStyleBackColor = true;
             this.isInGeogridBox.Visible = false;
             // 
             // rubberMaterialNameBox
             // 
-            this.rubberMaterialNameBox.Location = new System.Drawing.Point(154, 116);
+            this.rubberMaterialNameBox.Location = new System.Drawing.Point(154, 142);
             this.rubberMaterialNameBox.Name = "rubberMaterialNameBox";
             this.rubberMaterialNameBox.Size = new System.Drawing.Size(102, 20);
             this.rubberMaterialNameBox.TabIndex = 17;
@@ -206,23 +189,22 @@ namespace PavementCnC.Forms
             // 
             // rubberManufacturerBox
             // 
-            this.rubberManufacturerBox.Location = new System.Drawing.Point(154, 144);
+            this.rubberManufacturerBox.Location = new System.Drawing.Point(154, 169);
             this.rubberManufacturerBox.Name = "rubberManufacturerBox";
             this.rubberManufacturerBox.Size = new System.Drawing.Size(102, 20);
             this.rubberManufacturerBox.TabIndex = 19;
             this.rubberManufacturerBox.Visible = false;
             // 
-            // rubberColorBox
+            // colorBox
             // 
-            this.rubberColorBox.Location = new System.Drawing.Point(154, 170);
-            this.rubberColorBox.Name = "rubberColorBox";
-            this.rubberColorBox.Size = new System.Drawing.Size(102, 20);
-            this.rubberColorBox.TabIndex = 21;
-            this.rubberColorBox.Visible = false;
+            this.colorBox.Location = new System.Drawing.Point(154, 89);
+            this.colorBox.Name = "colorBox";
+            this.colorBox.Size = new System.Drawing.Size(102, 20);
+            this.colorBox.TabIndex = 21;
             // 
             // rubberThicknessBox
             // 
-            this.rubberThicknessBox.Location = new System.Drawing.Point(154, 196);
+            this.rubberThicknessBox.Location = new System.Drawing.Point(154, 195);
             this.rubberThicknessBox.Name = "rubberThicknessBox";
             this.rubberThicknessBox.Size = new System.Drawing.Size(102, 20);
             this.rubberThicknessBox.TabIndex = 23;
@@ -230,46 +212,26 @@ namespace PavementCnC.Forms
             // 
             // safeDropHeightBox
             // 
-            this.safeDropHeightBox.Location = new System.Drawing.Point(154, 222);
+            this.safeDropHeightBox.Location = new System.Drawing.Point(154, 221);
             this.safeDropHeightBox.Name = "safeDropHeightBox";
             this.safeDropHeightBox.Size = new System.Drawing.Size(102, 20);
             this.safeDropHeightBox.TabIndex = 25;
             this.safeDropHeightBox.Visible = false;
             // 
-            // concreteClass
-            // 
-            this.concreteClass.AutoSize = true;
-            this.concreteClass.Location = new System.Drawing.Point(13, 118);
-            this.concreteClass.Name = "concreteClass";
-            this.concreteClass.Size = new System.Drawing.Size(79, 13);
-            this.concreteClass.TabIndex = 8;
-            this.concreteClass.Text = "Класс бетона:";
-            this.concreteClass.Visible = false;
-            // 
             // grainSize
             // 
             this.grainSize.AutoSize = true;
-            this.grainSize.Location = new System.Drawing.Point(13, 144);
+            this.grainSize.Location = new System.Drawing.Point(13, 169);
             this.grainSize.Name = "grainSize";
             this.grainSize.Size = new System.Drawing.Size(115, 13);
             this.grainSize.TabIndex = 12;
             this.grainSize.Text = "Фракция материала:";
             this.grainSize.Visible = false;
             // 
-            // fillMaterial
-            // 
-            this.fillMaterial.AutoSize = true;
-            this.fillMaterial.Location = new System.Drawing.Point(13, 118);
-            this.fillMaterial.Name = "fillMaterial";
-            this.fillMaterial.Size = new System.Drawing.Size(114, 13);
-            this.fillMaterial.TabIndex = 10;
-            this.fillMaterial.Text = "Насыпной материал:";
-            this.fillMaterial.Visible = false;
-            // 
             // rubberMaterialName
             // 
             this.rubberMaterialName.AutoSize = true;
-            this.rubberMaterialName.Location = new System.Drawing.Point(13, 118);
+            this.rubberMaterialName.Location = new System.Drawing.Point(13, 144);
             this.rubberMaterialName.Name = "rubberMaterialName";
             this.rubberMaterialName.Size = new System.Drawing.Size(112, 13);
             this.rubberMaterialName.TabIndex = 16;
@@ -279,37 +241,17 @@ namespace PavementCnC.Forms
             // rubberManufacturer
             // 
             this.rubberManufacturer.AutoSize = true;
-            this.rubberManufacturer.Location = new System.Drawing.Point(13, 146);
+            this.rubberManufacturer.Location = new System.Drawing.Point(13, 169);
             this.rubberManufacturer.Name = "rubberManufacturer";
             this.rubberManufacturer.Size = new System.Drawing.Size(141, 13);
             this.rubberManufacturer.TabIndex = 18;
             this.rubberManufacturer.Text = "Производитель покрытия:";
             this.rubberManufacturer.Visible = false;
             // 
-            // isInsideGeogrid
-            // 
-            this.isInsideGeogrid.AutoSize = true;
-            this.isInsideGeogrid.Location = new System.Drawing.Point(14, 169);
-            this.isInsideGeogrid.Name = "isInsideGeogrid";
-            this.isInsideGeogrid.Size = new System.Drawing.Size(83, 13);
-            this.isInsideGeogrid.TabIndex = 14;
-            this.isInsideGeogrid.Text = "В георешетке?";
-            this.isInsideGeogrid.Visible = false;
-            // 
-            // rubberColor
-            // 
-            this.rubberColor.AutoSize = true;
-            this.rubberColor.Location = new System.Drawing.Point(13, 172);
-            this.rubberColor.Name = "rubberColor";
-            this.rubberColor.Size = new System.Drawing.Size(87, 13);
-            this.rubberColor.TabIndex = 20;
-            this.rubberColor.Text = "Цвет покрытия:";
-            this.rubberColor.Visible = false;
-            // 
             // rubberThickness
             // 
             this.rubberThickness.AutoSize = true;
-            this.rubberThickness.Location = new System.Drawing.Point(13, 198);
+            this.rubberThickness.Location = new System.Drawing.Point(13, 197);
             this.rubberThickness.Name = "rubberThickness";
             this.rubberThickness.Size = new System.Drawing.Size(130, 13);
             this.rubberThickness.TabIndex = 22;
@@ -319,7 +261,7 @@ namespace PavementCnC.Forms
             // safeDropHeight
             // 
             this.safeDropHeight.AutoSize = true;
-            this.safeDropHeight.Location = new System.Drawing.Point(13, 224);
+            this.safeDropHeight.Location = new System.Drawing.Point(13, 223);
             this.safeDropHeight.Name = "safeDropHeight";
             this.safeDropHeight.Size = new System.Drawing.Size(129, 13);
             this.safeDropHeight.TabIndex = 24;
@@ -328,7 +270,7 @@ namespace PavementCnC.Forms
             // 
             // tileSizeBox
             // 
-            this.tileSizeBox.Location = new System.Drawing.Point(154, 116);
+            this.tileSizeBox.Location = new System.Drawing.Point(154, 140);
             this.tileSizeBox.Name = "tileSizeBox";
             this.tileSizeBox.Size = new System.Drawing.Size(102, 20);
             this.tileSizeBox.TabIndex = 27;
@@ -337,7 +279,7 @@ namespace PavementCnC.Forms
             // tileSize
             // 
             this.tileSize.AutoSize = true;
-            this.tileSize.Location = new System.Drawing.Point(13, 118);
+            this.tileSize.Location = new System.Drawing.Point(13, 142);
             this.tileSize.Name = "tileSize";
             this.tileSize.Size = new System.Drawing.Size(87, 13);
             this.tileSize.TabIndex = 26;
@@ -346,7 +288,7 @@ namespace PavementCnC.Forms
             // 
             // tileManufacturerBox
             // 
-            this.tileManufacturerBox.Location = new System.Drawing.Point(154, 144);
+            this.tileManufacturerBox.Location = new System.Drawing.Point(154, 168);
             this.tileManufacturerBox.Name = "tileManufacturerBox";
             this.tileManufacturerBox.Size = new System.Drawing.Size(102, 20);
             this.tileManufacturerBox.TabIndex = 29;
@@ -355,34 +297,16 @@ namespace PavementCnC.Forms
             // tileManufacturer
             // 
             this.tileManufacturer.AutoSize = true;
-            this.tileManufacturer.Location = new System.Drawing.Point(13, 146);
+            this.tileManufacturer.Location = new System.Drawing.Point(13, 170);
             this.tileManufacturer.Name = "tileManufacturer";
             this.tileManufacturer.Size = new System.Drawing.Size(127, 13);
             this.tileManufacturer.TabIndex = 28;
             this.tileManufacturer.Text = "Производитель плитки:";
             this.tileManufacturer.Visible = false;
             // 
-            // tileColorBox
-            // 
-            this.tileColorBox.Location = new System.Drawing.Point(154, 172);
-            this.tileColorBox.Name = "tileColorBox";
-            this.tileColorBox.Size = new System.Drawing.Size(102, 20);
-            this.tileColorBox.TabIndex = 31;
-            this.tileColorBox.Visible = false;
-            // 
-            // tileColor
-            // 
-            this.tileColor.AutoSize = true;
-            this.tileColor.Location = new System.Drawing.Point(13, 174);
-            this.tileColor.Name = "tileColor";
-            this.tileColor.Size = new System.Drawing.Size(73, 13);
-            this.tileColor.TabIndex = 30;
-            this.tileColor.Text = "Цвет плитки:";
-            this.tileColor.Visible = false;
-            // 
             // tileCollectionBox
             // 
-            this.tileCollectionBox.Location = new System.Drawing.Point(154, 198);
+            this.tileCollectionBox.Location = new System.Drawing.Point(154, 194);
             this.tileCollectionBox.Name = "tileCollectionBox";
             this.tileCollectionBox.Size = new System.Drawing.Size(102, 20);
             this.tileCollectionBox.TabIndex = 33;
@@ -391,7 +315,7 @@ namespace PavementCnC.Forms
             // tileCollection
             // 
             this.tileCollection.AutoSize = true;
-            this.tileCollection.Location = new System.Drawing.Point(13, 200);
+            this.tileCollection.Location = new System.Drawing.Point(13, 196);
             this.tileCollection.Name = "tileCollection";
             this.tileCollection.Size = new System.Drawing.Size(103, 13);
             this.tileCollection.TabIndex = 32;
@@ -400,9 +324,9 @@ namespace PavementCnC.Forms
             // 
             // createLayerButton
             // 
-            this.createLayerButton.Location = new System.Drawing.Point(295, 149);
+            this.createLayerButton.Location = new System.Drawing.Point(270, 149);
             this.createLayerButton.Name = "createLayerButton";
-            this.createLayerButton.Size = new System.Drawing.Size(96, 41);
+            this.createLayerButton.Size = new System.Drawing.Size(141, 41);
             this.createLayerButton.TabIndex = 34;
             this.createLayerButton.Text = "Создать слой для покрытия";
             this.createLayerButton.UseVisualStyleBackColor = true;
@@ -484,12 +408,79 @@ namespace PavementCnC.Forms
             this.lineweightSelect.UseVisualStyleBackColor = true;
             this.lineweightSelect.Click += new System.EventHandler(this.lineweightSelect_Click);
             // 
+            // acceptedLoadLabel
+            // 
+            this.acceptedLoadLabel.AutoSize = true;
+            this.acceptedLoadLabel.Location = new System.Drawing.Point(13, 117);
+            this.acceptedLoadLabel.Name = "acceptedLoadLabel";
+            this.acceptedLoadLabel.Size = new System.Drawing.Size(136, 13);
+            this.acceptedLoadLabel.TabIndex = 6;
+            this.acceptedLoadLabel.Text = "Допустимая нагрузка, т.:";
+            // 
+            // fillMaterial
+            // 
+            this.fillMaterial.AutoSize = true;
+            this.fillMaterial.Location = new System.Drawing.Point(13, 142);
+            this.fillMaterial.Name = "fillMaterial";
+            this.fillMaterial.Size = new System.Drawing.Size(114, 13);
+            this.fillMaterial.TabIndex = 10;
+            this.fillMaterial.Text = "Насыпной материал:";
+            this.fillMaterial.Visible = false;
+            // 
+            // paramBox
+            // 
+            this.paramBox.Location = new System.Drawing.Point(154, 141);
+            this.paramBox.Name = "paramBox";
+            this.paramBox.Size = new System.Drawing.Size(102, 20);
+            this.paramBox.TabIndex = 49;
+            // 
+            // paramLabel
+            // 
+            this.paramLabel.AutoSize = true;
+            this.paramLabel.Location = new System.Drawing.Point(13, 143);
+            this.paramLabel.Name = "paramLabel";
+            this.paramLabel.Size = new System.Drawing.Size(69, 13);
+            this.paramLabel.TabIndex = 48;
+            this.paramLabel.Text = "Параметры:";
+            // 
+            // colorLab
+            // 
+            this.colorLab.AutoSize = true;
+            this.colorLab.Location = new System.Drawing.Point(13, 91);
+            this.colorLab.Name = "colorLab";
+            this.colorLab.Size = new System.Drawing.Size(87, 13);
+            this.colorLab.TabIndex = 47;
+            this.colorLab.Text = "Цвет покрытия:";
+            // 
+            // rubberModelBox
+            // 
+            this.rubberModelBox.Location = new System.Drawing.Point(155, 117);
+            this.rubberModelBox.Name = "rubberModelBox";
+            this.rubberModelBox.Size = new System.Drawing.Size(102, 20);
+            this.rubberModelBox.TabIndex = 51;
+            this.rubberModelBox.Visible = false;
+            // 
+            // rubberModelLabel
+            // 
+            this.rubberModelLabel.AutoSize = true;
+            this.rubberModelLabel.Location = new System.Drawing.Point(14, 119);
+            this.rubberModelLabel.Name = "rubberModelLabel";
+            this.rubberModelLabel.Size = new System.Drawing.Size(112, 13);
+            this.rubberModelLabel.TabIndex = 50;
+            this.rubberModelLabel.Text = "Название покрытия:";
+            this.rubberModelLabel.Visible = false;
+            // 
             // CreatePavementLayersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(418, 250);
+            this.ClientSize = new System.Drawing.Size(417, 250);
+            this.Controls.Add(this.rubberModelBox);
+            this.Controls.Add(this.rubberModelLabel);
+            this.Controls.Add(this.paramBox);
+            this.Controls.Add(this.paramLabel);
+            this.Controls.Add(this.colorLab);
             this.Controls.Add(this.lineweightLabel);
             this.Controls.Add(this.lineweightSelect);
             this.Controls.Add(this.colorLabel);
@@ -501,8 +492,6 @@ namespace PavementCnC.Forms
             this.Controls.Add(this.createLayerButton);
             this.Controls.Add(this.tileCollectionBox);
             this.Controls.Add(this.tileCollection);
-            this.Controls.Add(this.tileColorBox);
-            this.Controls.Add(this.tileColor);
             this.Controls.Add(this.tileManufacturerBox);
             this.Controls.Add(this.tileManufacturer);
             this.Controls.Add(this.tileSizeBox);
@@ -511,22 +500,18 @@ namespace PavementCnC.Forms
             this.Controls.Add(this.safeDropHeight);
             this.Controls.Add(this.rubberThicknessBox);
             this.Controls.Add(this.rubberThickness);
-            this.Controls.Add(this.rubberColorBox);
-            this.Controls.Add(this.rubberColor);
+            this.Controls.Add(this.colorBox);
             this.Controls.Add(this.rubberManufacturerBox);
             this.Controls.Add(this.rubberManufacturer);
             this.Controls.Add(this.rubberMaterialNameBox);
             this.Controls.Add(this.rubberMaterialName);
             this.Controls.Add(this.isInGeogridBox);
-            this.Controls.Add(this.isInsideGeogrid);
             this.Controls.Add(this.grainSizeBox);
             this.Controls.Add(this.grainSize);
             this.Controls.Add(this.fillMaterialBox);
             this.Controls.Add(this.fillMaterial);
-            this.Controls.Add(this.concreteClassBox);
-            this.Controls.Add(this.concreteClass);
             this.Controls.Add(this.acceptedLoadBox);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.acceptedLoadLabel);
             this.Controls.Add(this.pavementTypeNameBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pointOfUseBox);
@@ -551,31 +536,23 @@ namespace PavementCnC.Forms
         private Label label3;
         private TextBox pavementTypeNameBox;
         private TextBox acceptedLoadBox;
-        private Label label4;
-        private TextBox concreteClassBox;
         private TextBox fillMaterialBox;
         private TextBox grainSizeBox;
         private CheckBox isInGeogridBox;
         private TextBox rubberMaterialNameBox;
         private TextBox rubberManufacturerBox;
-        private TextBox rubberColorBox;
+        private TextBox colorBox;
         private TextBox rubberThicknessBox;
         private TextBox safeDropHeightBox;
-        private Label concreteClass;
         private Label grainSize;
-        private Label fillMaterial;
         private Label rubberMaterialName;
         private Label rubberManufacturer;
-        private Label isInsideGeogrid;
-        private Label rubberColor;
         private Label rubberThickness;
         private Label safeDropHeight;
         private TextBox tileSizeBox;
         private Label tileSize;
         private TextBox tileManufacturerBox;
         private Label tileManufacturer;
-        private TextBox tileColorBox;
-        private Label tileColor;
         private TextBox tileCollectionBox;
         private Label tileCollection;
         private Button createLayerButton;
@@ -587,5 +564,12 @@ namespace PavementCnC.Forms
         private Label colorLabel;
         private Label lineweightLabel;
         private Button lineweightSelect;
+        private Label acceptedLoadLabel;
+        private Label fillMaterial;
+        private TextBox paramBox;
+        private Label paramLabel;
+        private Label colorLab;
+        private TextBox rubberModelBox;
+        private Label rubberModelLabel;
     }
 }

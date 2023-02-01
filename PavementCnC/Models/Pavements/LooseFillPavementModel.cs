@@ -1,31 +1,34 @@
 ﻿using Autodesk.AutoCAD.Geometry;
 using System;
+using System.Globalization;
 
 namespace PavementCnC.Models;
-// Layer name structure: pavementLayerStart + Code + typeOfPavement + pointOfUse + fillMaterial + grainSize + isInsideGeoCells + acceptedLoad
+// Layer name structure: pavementLayerStart(0) + Code(1) + typeOfPavement(2) + pointOfUse(3) + fillMaterial(4) + parameters(5) + isInsideGeoCells(6) + Color(7) + acceptedLoad(8)
 public class LooseFillPavementModel : IPavement
 {
     public PavementType TypeOfPavement { get; private set; } = PavementType.LooseFill;
     public string Code { get; private set; }
-    public string PavementFullName { get; private set; }
+    public string FullName { get; private set; }
     public PointOfUseType PointOfUse { get; private set; }
-    public int AcceptedLoad { get; private set; }
-    public double PavementArea { get; private set; }
+    public double AcceptedLoad { get; private set; }
+    public double Amount { get; private set; }
     public bool IsInsideGeocells { get; private set; }
     public string FillMaterial { get; private set; }
-    public string GrainSize { get; private set; }
+    public string Parameters { get; private set; }
     public bool IsInsidePlot { get; private set; }
     public Point3d Position { get; private set; }
+    public string Color { get; private set; }
 
-    public LooseFillPavementModel(string[] layerSplit, double pavementArea, Point3d position, bool isInsidePlot = true)
+    public LooseFillPavementModel(string[] layerSplit, double pavementArea, Point3d position, bool isInsidePlot)
     {
         Code = layerSplit[1];
         PointOfUse = (PointOfUseType)Array.IndexOf(Variables.pointOfUseLayer, layerSplit[3]);
         FillMaterial = layerSplit[4];
-        GrainSize = layerSplit[5];
+        Parameters = layerSplit[5];
         IsInsideGeocells = layerSplit[6] == "в георешетке";
-        AcceptedLoad = Convert.ToInt32(layerSplit[7]);
-        PavementArea = pavementArea;
+        Color = layerSplit[7];
+        AcceptedLoad = Convert.ToDouble(layerSplit[8], CultureInfo.InvariantCulture);
+        Amount = pavementArea;
         IsInsidePlot = isInsidePlot;
         Position = position;
         var type = PointOfUse switch
@@ -42,6 +45,6 @@ public class LooseFillPavementModel : IPavement
             PointOfUseType.Greenery => "территория озеленения",
             _ => throw new Exception("Неизвестное место применения")
         };
-        PavementFullName = $"Насыпное покрытие из {FillMaterial} {GrainSize} ({type}). Основание под нагрузку {AcceptedLoad}т/ось.";
+        FullName = $"Насыпное покрытие из {FillMaterial} ({type}). Основание под нагрузку {AcceptedLoad}т/ось.";
     }
 }
