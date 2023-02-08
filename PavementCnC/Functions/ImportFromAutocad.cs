@@ -12,8 +12,6 @@ namespace PavementCnC.Functions;
 
 public static class ImportFromAutocad
 {
-    
-
     public static List<T> GetAllElementsOfTypeOnLayer<T>(string layer, string xrefName = null) where T : Entity
     {
         Document doc = Application.DocumentManager.MdiActiveDocument;
