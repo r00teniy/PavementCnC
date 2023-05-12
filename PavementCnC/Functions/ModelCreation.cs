@@ -1,8 +1,10 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
-using PavementCnC.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Autodesk.AutoCAD.DatabaseServices;
+
+using PavementCnC.Models;
 
 namespace PavementCnC.Functions;
 
@@ -51,19 +53,19 @@ public static class ModelCreation
         //Getting layer lists from drawing
         List<string> curbLayers = ImportFromAutocad.GetAllLayersContainingString(Variables.curbLayerStart);
         //Getting layer elements for each layer
-        List<List<Polyline>> curbs = new List<List<Polyline>>();
+        List<List<Polyline>> curbs = new();
         foreach (var curbLayer in curbLayers)
         {
             curbs.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(curbLayer));
         }
         //Checking if curbs are inside plot or not
-        List<List<bool>> areCurbsInsidePlot = new List<List<bool>>();
+        List<List<bool>> areCurbsInsidePlot = new();
         foreach (var curbList in curbs)
         {
             areCurbsInsidePlot.Add(FunctionsPrepairingData.AreObjectsInsidePlot(plotBorders, curbList));
         }
         //Creating new models for each element
-        List<CurbModel> curbModels = new List<CurbModel>();
+        List<CurbModel> curbModels = new();
         for (int i = 0; i < curbLayers.Count; i++)
         {
             for (var j = 0; j < curbs[i].Count; j++)
@@ -78,13 +80,13 @@ public static class ModelCreation
         //Getting layers
         List<string> pavementLayers = ImportFromAutocad.GetAllLayersContainingString(Variables.pavementLayerStart);
         //Getting objects
-        List<List<Hatch>> pavements = new List<List<Hatch>>();
+        List<List<Hatch>> pavements = new();
         foreach (var pavementLayer in pavementLayers)
         {
             pavements.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Hatch>(pavementLayer));
         }
         //Creating models
-        List<IPavement> pavementModels = new List<IPavement>();
+        List<IPavement> pavementModels = new();
         for (int i = 0; i < pavementLayers.Count; i++)
         {
             var layerSplit = pavementLayers[i].Split('+');
@@ -135,7 +137,7 @@ public static class ModelCreation
         }
         return pavementModels;
     }
-        
+
     internal static List<IGreeneryItem> GetGreeneryItems(List<Polyline> plotBorders)
     {
         //Getting layers
@@ -147,13 +149,13 @@ public static class ModelCreation
             greeneryItems.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<BlockReference>(greeneryLayer));
         }
         //Checking if greenery is inside plot or not
-        List<List<bool>> areGreeneryItemsInsidePlot = new List<List<bool>>();
+        List<List<bool>> areGreeneryItemsInsidePlot = new();
         foreach (var greeneryList in greeneryItems)
         {
             areGreeneryItemsInsidePlot.Add(FunctionsPrepairingData.AreObjectsInsidePlot(plotBorders, greeneryList));
         }
         //Creating Greenery Models
-        List<IGreeneryItem> greeneryModels = new List<IGreeneryItem>();
+        List<IGreeneryItem> greeneryModels = new();
         for (int i = 0; i < greeneryItemsLayers.Count; i++)
         {
             var layerSplit = greeneryItemsLayers[i].Split('+');
@@ -195,7 +197,7 @@ public static class ModelCreation
             greeneryAreas.Add(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Hatch>(greeneryAreaLayer));
         }
         //Checking if greenery is inside plot or not
-        List<List<bool>> areGreeneryAreasInsidePlot = new List<List<bool>>();
+        List<List<bool>> areGreeneryAreasInsidePlot = new();
         foreach (var greeneryList in greeneryAreas)
         {
             areGreeneryAreasInsidePlot.Add(FunctionsPrepairingData.AreObjectsInsidePlot(plotBorders, greeneryList));

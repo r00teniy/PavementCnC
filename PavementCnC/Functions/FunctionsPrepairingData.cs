@@ -26,7 +26,7 @@ public static class FunctionsPrepairingData
     {
         if (!curve.Closed)
             throw new ArgumentException("Curve must be closed.");
-        DBObjectCollection curves = new DBObjectCollection();
+        DBObjectCollection curves = new();
         curves.Add(curve);
         using (DBObjectCollection regions = Region.CreateFromCurves(curves))
         {
@@ -50,7 +50,7 @@ public static class FunctionsPrepairingData
     public static PointContainment GetPointContainment(Region region, Point3d point)
     {
         PointContainment result = PointContainment.Outside;
-        using (Brep brep = new Brep(region))
+        using (Brep brep = new(region))
         {
             if (brep != null)
             {
@@ -142,10 +142,10 @@ public static class FunctionsPrepairingData
     public static Polyline GetBorderFromHatchLoop(HatchLoop loop, Plane plane)
     {
         //Modified code from Rivilis Restore Hatch Boundary program
-        Polyline looparea = new Polyline();
+        Polyline looparea = new();
         if (loop.IsPolyline)
         {
-            using (Polyline poly = new Polyline())
+            using (Polyline poly = new())
             {
                 int iVertex = 0;
                 foreach (BulgeVertex bv in loop.Polyline)
@@ -179,7 +179,7 @@ public static class FunctionsPrepairingData
                 NurbCurve2d spline2d = cv as NurbCurve2d;
                 if (line2d != null)
                 {
-                    using (Line ent = new Line())
+                    using (Line ent = new())
                     {
                         try
                         {
@@ -201,7 +201,7 @@ public static class FunctionsPrepairingData
                     {
                         if (arc2d.IsClosed() || Math.Abs(arc2d.EndAngle - arc2d.StartAngle) < 1e-5)
                         {
-                            using (Circle ent = new Circle(new Point3d(plane, arc2d.Center), plane.Normal, arc2d.Radius))
+                            using (Circle ent = new(new Point3d(plane, arc2d.Center), plane.Normal, arc2d.Radius))
                             {
                                 looparea.JoinEntity(ent);
                             }
@@ -215,7 +215,7 @@ public static class FunctionsPrepairingData
                             double angle = new Vector3d(plane, arc2d.ReferenceVector).AngleOnPlane(plane);
                             double startAngle = arc2d.StartAngle + angle;
                             double endAngle = arc2d.EndAngle + angle;
-                            using (Arc ent = new Arc(new Point3d(plane, arc2d.Center), plane.Normal, arc2d.Radius, startAngle, endAngle))
+                            using (Arc ent = new(new Point3d(plane, arc2d.Center), plane.Normal, arc2d.Radius, startAngle, endAngle))
                             {
                                 looparea.JoinEntity(ent);
                             }
@@ -235,7 +235,7 @@ public static class FunctionsPrepairingData
                 }
                 else if (ellipse2d != null)
                 {
-                    using (Ellipse ent = new Ellipse(new Point3d(plane, ellipse2d.Center), plane.Normal, new Vector3d(plane, ellipse2d.MajorAxis) * ellipse2d.MajorRadius, ellipse2d.MinorRadius / ellipse2d.MajorRadius, ellipse2d.StartAngle, ellipse2d.EndAngle))
+                    using (Ellipse ent = new(new Point3d(plane, ellipse2d.Center), plane.Normal, new Vector3d(plane, ellipse2d.MajorAxis) * ellipse2d.MajorRadius, ellipse2d.MinorRadius / ellipse2d.MajorRadius, ellipse2d.StartAngle, ellipse2d.EndAngle))
                     {
                         ent.GetType().InvokeMember("StartParam", BindingFlags.SetProperty, null, ent, new object[] { ellipse2d.StartAngle });
                         ent.GetType().InvokeMember("EndParam", BindingFlags.SetProperty, null, ent, new object[] { ellipse2d.EndAngle });
@@ -248,10 +248,10 @@ public static class FunctionsPrepairingData
                     if (spline2d.HasFitData)
                     {
                         NurbCurve2dFitData n2fd = spline2d.FitData;
-                        using (Point3dCollection p3ds = new Point3dCollection())
+                        using (Point3dCollection p3ds = new())
                         {
                             foreach (Point2d p in n2fd.FitPoints) p3ds.Add(new Point3d(plane, p));
-                            using (Spline ent = new Spline(p3ds, new Vector3d(plane, n2fd.StartTangent), new Vector3d(plane, n2fd.EndTangent), /* n2fd.KnotParam, */  n2fd.Degree, n2fd.FitTolerance.EqualPoint))
+                            using (Spline ent = new(p3ds, new Vector3d(plane, n2fd.StartTangent), new Vector3d(plane, n2fd.EndTangent), /* n2fd.KnotParam, */  n2fd.Degree, n2fd.FitTolerance.EqualPoint))
                             {
                                 looparea.JoinEntity(ent);
                             }
@@ -260,13 +260,13 @@ public static class FunctionsPrepairingData
                     else
                     {
                         NurbCurve2dData n2fd = spline2d.DefinitionData;
-                        using (Point3dCollection p3ds = new Point3dCollection())
+                        using (Point3dCollection p3ds = new())
                         {
-                            DoubleCollection knots = new DoubleCollection(n2fd.Knots.Count);
+                            DoubleCollection knots = new(n2fd.Knots.Count);
                             foreach (Point2d p in n2fd.ControlPoints) p3ds.Add(new Point3d(plane, p));
                             foreach (double k in n2fd.Knots) knots.Add(k);
                             double period = 0;
-                            using (Spline ent = new Spline(n2fd.Degree, n2fd.Rational, spline2d.IsClosed(), spline2d.IsPeriodic(out period), p3ds, knots, n2fd.Weights, n2fd.Knots.Tolerance, n2fd.Knots.Tolerance))
+                            using (Spline ent = new(n2fd.Degree, n2fd.Rational, spline2d.IsClosed(), spline2d.IsPeriodic(out period), p3ds, knots, n2fd.Weights, n2fd.Knots.Tolerance, n2fd.Knots.Tolerance))
                             {
                                 looparea.JoinEntity(ent);
                             }

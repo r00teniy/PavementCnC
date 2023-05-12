@@ -1,9 +1,10 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
+﻿using System;
+using System.Collections.Generic;
+
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
-using System;
-using System.Collections.Generic;
 
 namespace PavementCnC.Functions;
 public static class ExportResultsToAutocad
@@ -19,7 +20,7 @@ public static class ExportResultsToAutocad
                 LayerTable lt = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForWrite);
                 if (!lt.Has(layerName)) //Checking if layer already exist
                 {
-                    LayerTableRecord newLayer = new LayerTableRecord()
+                    LayerTableRecord newLayer = new()
                     {
                         Name = layerName,
                         Color = color,
@@ -46,7 +47,7 @@ public static class ExportResultsToAutocad
         {
             objId = ImportFromAutocad.GetObjectIdOfEntity<Polyline>("Polyline");
         }
-        ObjectIdCollection ObjIds = new ObjectIdCollection
+        ObjectIdCollection ObjIds = new()
         {
             (ObjectId)objId
         };
@@ -56,10 +57,10 @@ public static class ExportResultsToAutocad
             {
                 var bT = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
                 var btr = (BlockTableRecord)tr.GetObject(bT[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
-                Hatch oHatch = new Hatch();
+                Hatch oHatch = new();
                 oHatch.SetHatchPattern(HatchPatternType.UserDefined, style["patName"]);
                 // set other properties  
-                Vector3d normal = new Vector3d(0.0, 0.0, 1.0);
+                Vector3d normal = new(0.0, 0.0, 1.0);
                 oHatch.Normal = normal;
                 oHatch.Elevation = 0.0;
                 oHatch.PatternScale = Double.Parse(style["scale"]);

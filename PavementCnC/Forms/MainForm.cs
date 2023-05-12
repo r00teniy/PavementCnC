@@ -1,8 +1,10 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
-using PavementCnC.Functions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+
+using Autodesk.AutoCAD.DatabaseServices;
+
+using PavementCnC.Functions;
 
 namespace PavementCnC.Forms
 {
@@ -68,7 +70,7 @@ namespace PavementCnC.Forms
         private void PavementHatchStyleCreate_Click(object sender, EventArgs e)
         {
             this.Hide();
-            CreateHatchStyleForm hatchStyleForm= new CreateHatchStyleForm(this, ref Variables.pavementHatchStyles);
+            CreateHatchStyleForm hatchStyleForm = new(this, ref Variables.pavementHatchStyles);
             hatchStyleForm.Show();
         }
 
@@ -80,7 +82,7 @@ namespace PavementCnC.Forms
         private void greneryHatchStyleCreate_Click(object sender, EventArgs e)
         {
             this.Hide();
-            CreateHatchStyleForm hatchStyleForm = new CreateHatchStyleForm(this, ref Variables.pavementHatchStyles);
+            CreateHatchStyleForm hatchStyleForm = new(this, ref Variables.pavementHatchStyles);
             hatchStyleForm.Show();
         }
 
@@ -104,7 +106,7 @@ namespace PavementCnC.Forms
         private void greeneryLayerCreate_Click(object sender, EventArgs e)
         {
             this.Hide();
-            CreateGreeneryLayerForm greeneryLayerForm = new CreateGreeneryLayerForm(this);
+            CreateGreeneryLayerForm greeneryLayerForm = new(this);
             greeneryLayerForm.Show();
         }
 
@@ -114,22 +116,22 @@ namespace PavementCnC.Forms
             switch (tableTypeBox.SelectedIndex)
             {
                 case 0:
-                    WorkWithTables.CreateAutocadTable("Ведомость бортового камня", WorkWithTables.CreateTableData(TableType.Curbs, ModelCreation.GetCurbs(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(Variables.plotBorderLayer))));
+                    WorkWithTables.CreateAutocadTable("Ведомость бортового камня", WorkWithTables.CreateTableData(TableType.Curbs, ModelCreation.GetCurbs(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(Variables.plotBorderLayer))), Variables.tableWidthArray[0]);
                     break;
                 case 1:
-                    WorkWithTables.CreateAutocadTable("Ведомость покрытий", WorkWithTables.CreateTableData(TableType.Pavements, ModelCreation.GetPavements(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(Variables.plotBorderLayer))));
+                    WorkWithTables.CreateAutocadTable("Ведомость покрытий", WorkWithTables.CreateTableData(TableType.Pavements, ModelCreation.GetPavements(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(Variables.plotBorderLayer))), Variables.tableWidthArray[1]);
                     break;
                 case 2:
-                    WorkWithTables.CreateAutocadTable("Ведомость штучного озеленения", WorkWithTables.CreateTableData(TableType.ItemGreenery, ModelCreation.GetGreeneryItems(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(Variables.plotBorderLayer))));
+                    WorkWithTables.CreateAutocadTable("Ведомость штучного озеленения", WorkWithTables.CreateTableData(TableType.ItemGreenery, ModelCreation.GetGreeneryItems(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(Variables.plotBorderLayer))), Variables.tableWidthArray[2]);
                     break;
                 case 3:
-                    WorkWithTables.CreateAutocadTable("Ведомость площадного озеленения", WorkWithTables.CreateTableData(TableType.AreaGreenery, ModelCreation.GetGreeneryAreas(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(Variables.plotBorderLayer))));
+                    WorkWithTables.CreateAutocadTable("Ведомость площадного озеленения", WorkWithTables.CreateTableData(TableType.AreaGreenery, ModelCreation.GetGreeneryAreas(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(Variables.plotBorderLayer))), Variables.tableWidthArray[3]);
                     break;
                 case 4:
-                    WorkWithTables.CreateAutocadTable("Ведомость газонов", WorkWithTables.CreateTableData(TableType.GrassGreenery, ModelCreation.GetGreeneryAreas(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(Variables.plotBorderLayer))));
+                    WorkWithTables.CreateAutocadTable("Ведомость газонов", WorkWithTables.CreateTableData(TableType.GrassGreenery, ModelCreation.GetGreeneryAreas(ImportFromAutocad.GetAllElementsOfTypeOnLayer<Polyline>(Variables.plotBorderLayer))), Variables.tableWidthArray[4]);
                     break;
                 case 5:
-                    WorkWithTables.CreateAutocadTable("Ведомость МАФ", WorkWithTables.CreateTableData(TableType.StreetFurniture, ModelCreation.GetStreetFurniture()));
+                    WorkWithTables.CreateAutocadTable("Ведомость АФ", WorkWithTables.CreateTableData(TableType.StreetFurniture, ModelCreation.GetStreetFurniture()), Variables.tableWidthArray[5]);
                     break;
             }
             this.Show();
@@ -138,7 +140,7 @@ namespace PavementCnC.Forms
         private void createCurbLayerButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            CreateCurbLayerForm curbLayerForm = new CreateCurbLayerForm(this);
+            CreateCurbLayerForm curbLayerForm = new(this);
             curbLayerForm.Show();
         }
     }

@@ -1,15 +1,17 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.DatabaseServices;
-using PavementCnC.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+
+using PavementCnC.Models;
 
 namespace PavementCnC.Functions;
 
 internal class WorkWithTables
 {
-    public static void CreateAutocadTable(string title, List<string[]> data)
+    public static void CreateAutocadTable(string title, List<string[]> data, double[] collumnWidth)
     {
         Document doc = Application.DocumentManager.MdiActiveDocument;
         Database db = doc.Database;
@@ -19,7 +21,7 @@ internal class WorkWithTables
             {
                 var bT = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
                 var bTr = (BlockTableRecord)tr.GetObject(bT[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
-                ObjectId tbSt = new ObjectId();
+                ObjectId tbSt = new();
                 DBDictionary tsd = (DBDictionary)tr.GetObject(db.TableStyleDictionaryId, OpenMode.ForRead);
                 foreach (DBDictionaryEntry entry in tsd)
                 {
@@ -28,7 +30,7 @@ internal class WorkWithTables
                     { tbSt = entry.Value; }
                 }
                 //Creating table
-                Table tb = new Table()
+                Table tb = new()
                 {
                     TableStyle = tbSt,
                     Position = ImportFromAutocad.GetInsertionPoint()
@@ -36,11 +38,14 @@ internal class WorkWithTables
                 //Creating title
                 tb.Rows[0].Style = "Название";
                 tb.Cells[0, 0].TextString = title;
-                tb.SetColumnWidth(20);
+                tb.SetColumnWidth(collumnWidth[0]);
                 //Creating header
                 tb.InsertRows(1, 15, 1);
                 tb.Rows[1].Style = "Заголовок";
-                tb.InsertColumns(1, 80, data[0].Length - 1);
+                for (int i = 1; i < collumnWidth.Length; i++)
+                {
+                    tb.InsertColumns(i, collumnWidth[i], 1);
+                }
                 //Creating Data
                 tb.SetRowHeight(8);
                 var currentRow = 1;
@@ -61,10 +66,11 @@ internal class WorkWithTables
                         {
                             tb.Cells[currentRow, currentCollumn].TextString = "-";
                         }
-                        
+
                         currentCollumn++;
                     }
                 }
+
                 //Adding table to drawing
                 tb.GenerateLayout();
                 bTr.AppendEntity(tb);
